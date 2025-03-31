@@ -3,355 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jardin Communautaire v7.3 (Plantes Wow)</title> 
-    
-    <script src="https://cdn.tailwindcss.com"></script> 
-    
+    <title>Jardin Communautaire v7.5 (Optimisé)</title> <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
-    
-    <style>
-        /* --- Styles Globaux & Variables --- */
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+     <style>
+       /* --- Styles CSS --- */
+       /* [ VOS STYLES CSS PRÉCÉDENTS SONT ICI - PAS DE CHANGEMENT MAJEUR REQUIS DANS LE CSS ] */
         :root {
-            --primary-color: #4CAF50; --primary-dark: #388E3C; --primary-light: #DCEDC8; 
-            --secondary-color: #ffb74d; --secondary-dark: #f57c00; 
-            --water-color: #4FC3F7; --energy-color: #FFB74D; --fertilizer-color: #A1887F; 
+            --primary-color: #4CAF50; --primary-dark: #388E3C; --primary-light: #DCEDC8;
+            --secondary-color: #ffb74d; --secondary-dark: #f57c00;
+            --water-color: #4FC3F7; --energy-color: #FFB74D; --fertilizer-color: #A1887F;
             --pesticide-color: #BA68C8; --music-color: #F06292; --prune-color: #4DB6AC;
             --repot-color: #78909C; --clean-color: #E6EE9C; --env-color: #FF8A65;
             --observe-color: #64B5F6; --harvest-color: #FFB74D; --mist-color: #4DD0E1;
-            --water-all-color: #4FC3F7; --health-color-high: #4CAF50; --health-color-mid: #FFC107; --health-color-low: #EF5350; 
+            --water-all-color: #4FC3F7; --health-color-high: #4CAF50; --health-color-mid: #FFC107; --health-color-low: #EF5350;
             --danger-color: #EF5350; --warning-color: #FFC107; --healthy-color: #8BC34A;
-            --background-color: #f4f9f4; --card-background: #ffffff; --text-color: #424242; 
+            --background-color: #f4f9f4; --card-background: #ffffff; --text-color: #424242;
             --subtle-text-color: #9E9E9E; --shadow-color: rgba(0, 0, 0, 0.05);
             --border-radius: 10px; /* Légèrement plus arrondi */
             --font-family: 'Poppins', sans-serif; --transition-speed: 0.25s; --update-speed: 0.8s;
-            --event-banner-color: #7E57C2; 
+            --event-banner-color: #7E57C2;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; scroll-behavior: smooth; }
-        body { 
-            font-family: var(--font-family); 
-            background-color: var(--background-color); 
-            color: var(--text-color); 
-            line-height: 1.5; 
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.5;
         }
-        .container-tw { 
-            width: 100%; 
-            max-width: 1600px; 
-            margin-left: auto;
-            margin-right: auto;
-            padding: 1rem; 
-        }
-
-        /* --- Event Banner --- */
+        .container-tw { width: 100%; max-width: 1600px; margin-left: auto; margin-right: auto; padding: 1rem; }
         #event-banner { position: fixed; top: 0; left: 0; width: 100%; background-color: var(--event-banner-color, var(--primary-dark)); color: white; padding: 6px 10px; text-align: center; font-size: 0.85em; z-index: 101; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.5s ease; }
         #event-banner.visible { display: block; } #event-banner i { margin-right: 8px; }
-
-        /* --- Base Card Style --- */
-        .card-base { 
-            background-color: var(--card-background); 
-            border-radius: var(--border-radius); 
-            border: 1px solid #e0e0e0; 
-        }
-
-        /* --- Garden Area --- */
+        .card-base { background-color: var(--card-background); border-radius: var(--border-radius); border: 1px solid #e0e0e0; }
         #garden-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 18px;}
         #garden-header h2 { color:var(--primary-dark); font-size:1.4em; font-weight:600; margin: 0; } #garden-header h2 i { color: var(--primary-color); margin-right: 8px;}
         #water-all-button { background-color: var(--water-all-color); color: white; padding: 7px 14px; font-size: 0.8em; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         #water-all-button:hover:not(:disabled) { background-color: #0288d1; box-shadow: 0 3px 6px rgba(0,0,0,0.15); transform: translateY(-1px); } #water-all-button:disabled { background-color: #bdbdbd; cursor: not-allowed; opacity: 0.7; box-shadow: none; } #water-all-button i { margin-right: 5px; }
-        #garden-view { 
-            display:grid;
-            grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); /* Légèrement plus large */
-            gap: 25px; /* Plus d'espace */
-            min-height:300px;
-            max-height:70vh; 
-            overflow-y:auto;
-            padding:20px; /* Plus de padding */
-            border:1px solid #f0f0f0;
-            border-radius:var(--border-radius);
-            background-color:#f9fbf9; 
-        }
+        #garden-view { display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap: 25px; min-height:300px; max-height:70vh; overflow-y:auto; padding:20px; border:1px solid #f0f0f0; border-radius:var(--border-radius); background-color:#f9fbf9; }
         #garden-view::-webkit-scrollbar { width: 6px; } #garden-view::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} #garden-view::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } #garden-view::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
-
-        /* --- Garden Plant ("Wow" Révision) --- */
-         .garden-plant { 
-             background: linear-gradient(to bottom, #ffffff, #f9f9f9); /* Léger gradient */
-             border: 1px solid #e8e8e8; 
-             border-radius:var(--border-radius); 
-             padding: 15px 10px; /* Ajusté */
-             text-align:center;
-             cursor:pointer;
-             transition:all var(--transition-speed) ease;
-             box-shadow:0 4px 10px rgba(0,0,0,.06); /* Ombre plus douce */
-             position:relative; 
-             display: flex; 
-             flex-direction: column; 
-             align-items: center; 
-             overflow: hidden; 
-         }
-         .garden-plant:hover { 
-             transform:translateY(-6px) scale(1.03); /* Effet plus prononcé */
-             box-shadow:0 10px 20px rgba(0,0,0,.09); 
-         }
-         .garden-plant.selected { 
-             border-color:var(--primary-color) !important; 
-             box-shadow:0 0 0 4px rgba(76,175,80,.3); /* Ombre de sélection plus visible */
-             background:linear-gradient(to bottom, #f1f8e9, #e8f5e9); /* Gradient pour sélection */
-             transform: translateY(-3px) scale(1.01); 
-             /* Animation de pulsation pour sélection */
-             /* animation: selectedPulse 1.5s infinite ease-in-out; */
-         }
-         /* @keyframes selectedPulse { 0%, 100% { transform: translateY(-3px) scale(1.01); } 50% { transform: translateY(-4px) scale(1.02); } } */
-
-         /* Indicateurs de statut par surbrillance (inchangé) */
-         .garden-plant.status-low-health { box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.4), 0 4px 10px rgba(0,0,0,.06); }
-         .garden-plant.status-danger-health { box-shadow: 0 0 0 3px rgba(239, 83, 80, 0.5), 0 4px 10px rgba(0,0,0,.06); }
-         .garden-plant.status-low-health:hover { box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.4), 0 10px 20px rgba(0,0,0,.09); }
-         .garden-plant.status-danger-health:hover { box-shadow: 0 0 0 3px rgba(239, 83, 80, 0.5), 0 10px 20px rgba(0,0,0,.09); }
-         .garden-plant.selected.status-low-health { box-shadow:0 0 0 4px rgba(76,175,80,.3), 0 0 0 7px rgba(255, 193, 7, 0.4); }
-         .garden-plant.selected.status-danger-health { box-shadow:0 0 0 4px rgba(76,175,80,.3), 0 0 0 7px rgba(239, 83, 80, 0.5); }
-
-         .garden-plant-icon-wrapper { 
-             position: relative; 
-             width: 65px; /* Plus grand */
-             height: 65px; /* Plus grand */
-             margin-bottom: 18px; /* Plus d'espace avant le nom (pour le pot) */
-             display: flex;
-             align-items: center;
-             justify-content: center;
-         }
-         /* Indicateur nuisibles (inchangé) */
-         .garden-plant-icon-wrapper.status-has-pests-glow {
-             box-shadow: inset 0 0 6px 2px rgba(186, 104, 200, 0.6); 
-             border-radius: 50%; 
-         }
-         
-         /* Visualisation du Pot via Pseudo-élément */
-         .garden-plant-icon-wrapper::after {
-            content: '';
-            position: absolute;
-            bottom: -10px; /* Position sous l'icône */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 85%; /* Largeur du pot */
-            height: 16px; /* Hauteur du pot */
-            background-color: var(--pot-color, #A1887F); /* Couleur dynamique */
-            border-radius: 0 0 8px 8px; /* Fond arrondi */
-            border: 1px solid rgba(0,0,0,0.15);
-            border-top: none;
-            z-index: 0; /* Derrière l'icône */
-         }
-
-         .garden-plant-icon { 
-             font-size: 3em; /* Icône plus grande */
-             display:block; 
-             transition:color .5s ease, transform .3s ease; 
-             position: relative; 
-             z-index: 1; /* Au-dessus du pot */
-             line-height: 1; /* Ajuster si nécessaire */
-             animation: plantIdle 7s infinite ease-in-out; /* Animation idle */
-             animation-delay: calc(var(--animation-delay, 0) * 1s); /* Délai variable */
-         }
-         @keyframes plantIdle { /* Animation subtile */
-            0%, 100% { transform: rotate(-1.5deg) scale(1); }
-            50% { transform: rotate(1.5deg) scale(1.02); }
-         }
-         .garden-plant-icon.rare-trait-glow { animation: rareGlow 2s infinite alternate; } 
-         @keyframes rareGlow { from { filter: drop-shadow(0 0 4px gold); } to { filter: drop-shadow(0 0 12px gold); } }
-         
-         .garden-plant-status-icons { 
-             position:absolute;
-             top: 8px; /* Ajusté */
-             right: 8px; /* Ajusté */
-             display:flex;
-             flex-direction:column;
-             gap: 4px; /* Espace entre icônes */
-             z-index: 2; 
-         }
-         .garden-plant-status-icons i { 
-             font-size:.6em; /* Légèrement plus petit ? */
-             color:#fff;
-             background-color:rgba(0,0,0,0.65); 
-             padding: 3px; 
-             border-radius: 50%; 
-             width: 16px; /* Taille fixe */
-             height: 16px; 
-             display:flex;
-             align-items:center;
-             justify-content:center; 
-             box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
-         }
-         /* Couleurs inchangées */
-         .garden-plant-status-icons i.status-health { background-color: var(--health-color-low); } .garden-plant-status-icons i.status-water { background-color:var(--water-color); } .garden-plant-status-icons i.status-energy { background-color:var(--energy-color); } .garden-plant-status-icons i.status-pests { background-color:var(--pesticide-color); } .garden-plant-status-icons i.status-wilted { background-color:var(--danger-color); }
-         
-         .garden-plant-name { 
-             font-size:.75em; 
-             font-weight: 600; /* Un peu plus gras */
-             color:var(--text-color);
-             white-space:nowrap;
-             overflow:hidden;
-             text-overflow:ellipsis;
-             display:block; 
-             margin-top: 0px; /* Positionné sous le pot */
-             width: 100%; 
-             padding: 0 5px; /* Empêche le texte de toucher les bords */
-         }
-         .garden-plant-rare { position:absolute;bottom:8px;left:8px;font-size:.9em;color:gold;text-shadow:0 0 4px black; z-index: 2;} .garden-plant-rare i { margin-right:3px; }
-
-        /* --- Sidebar (inchangé) --- */
-        .sidebar-container-tw {}
-        .sidebar-container-tw::-webkit-scrollbar { width: 6px; } .sidebar-container-tw::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} .sidebar-container-tw::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } .sidebar-container-tw::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
-        .sidebar-section { margin-bottom: 1rem; padding: 1rem; border-radius: var(--border-radius); background: var(--card-background); box-shadow: 0 2px 5px var(--shadow-color); border: 1px solid #e8e8e8; } 
-        .sidebar-section:last-child { margin-bottom:0;}
-        .sidebar-section.scrollable { flex-grow: 1; overflow-y: auto; min-height: 100px; max-height: 200px; } 
+        .garden-plant { background: linear-gradient(to bottom, #ffffff, #f9f9f9); border: 1px solid #e8e8e8; border-radius:var(--border-radius); padding: 15px 10px; text-align:center; cursor:pointer; transition:all var(--transition-speed) ease; box-shadow:0 4px 10px rgba(0,0,0,.06); position:relative; display: flex; flex-direction: column; align-items: center; overflow: hidden; opacity: 0; transform: translateY(15px); animation: fadeInCard 0.5s ease-out forwards; animation-delay: calc(var(--card-delay, 0) * 0.05s); }
+        @keyframes fadeInCard { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+        .garden-plant:hover { transform:translateY(-6px) scale(1.03); box-shadow:0 10px 20px rgba(0,0,0,.09); }
+        .garden-plant.selected { border-color:var(--primary-color) !important; box-shadow:0 0 0 4px rgba(76,175,80,.3); background:linear-gradient(to bottom, #f1f8e9, #e8f5e9); transform: translateY(-3px) scale(1.01); }
+        .garden-plant.status-low-health { box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.4), 0 4px 10px rgba(0,0,0,.06); }
+        .garden-plant.status-danger-health { box-shadow: 0 0 0 3px rgba(239, 83, 80, 0.5), 0 4px 10px rgba(0,0,0,.06); }
+        .garden-plant.status-low-health:hover { box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.4), 0 10px 20px rgba(0,0,0,.09); transform: translateY(-6px) scale(1.03); }
+        .garden-plant.status-danger-health:hover { box-shadow: 0 0 0 3px rgba(239, 83, 80, 0.5), 0 10px 20px rgba(0,0,0,.09); transform: translateY(-6px) scale(1.03); }
+        .garden-plant.selected.status-low-health { box-shadow:0 0 0 4px rgba(76,175,80,.3), 0 0 0 7px rgba(255, 193, 7, 0.4); transform: translateY(-3px) scale(1.01); }
+        .garden-plant.selected.status-danger-health { box-shadow:0 0 0 4px rgba(76,175,80,.3), 0 0 0 7px rgba(239, 83, 80, 0.5); transform: translateY(-3px) scale(1.01); }
+        .garden-plant-icon-wrapper { position: relative; width: 65px; height: 65px; margin-bottom: 18px; display: flex; align-items: center; justify-content: center; transition: box-shadow 0.3s ease; }
+        .garden-plant-icon-wrapper.status-has-pests-glow { box-shadow: inset 0 0 8px 3px rgba(186, 104, 200, 0.7); border-radius: 50%; }
+        .garden-plant-icon-wrapper::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 85%; height: 16px; background-color: var(--pot-color, #A1887F); border-radius: 0 0 8px 8px; border: 1px solid rgba(0,0,0,0.15); border-top: none; z-index: 0; transition: background-color var(--transition-speed) ease; }
+        .garden-plant-icon { font-size: 3em; display:block; transition: color 0.5s ease, filter 0.8s ease, transform 0.6s ease-out; position: relative; z-index: 1; line-height: 1; }
+        @keyframes plantIdle { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+        .garden-plant-icon.idle-animation { animation: plantIdle 7s infinite ease-in-out; animation-delay: calc(var(--animation-delay, 0) * 1s); }
+        .garden-plant-icon.rare-trait-glow { animation: rareGlow 2s infinite alternate; }
+        @keyframes rareGlow { from { filter: drop-shadow(0 0 4px gold); } to { filter: drop-shadow(0 0 12px gold); } }
+        .garden-plant-status-icons { position:absolute; top: 8px; right: 8px; display:flex; flex-direction:column; gap: 4px; z-index: 2; }
+        .garden-plant-status-icons i { font-size:.6em; color:#fff; background-color:rgba(0,0,0,0.65); padding: 3px; border-radius: 50%; width: 16px; height: 16px; display:flex; align-items:center; justify-content:center; box-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: background-color 0.3s ease; }
+        .garden-plant-status-icons i.status-health { background-color: var(--health-color-low); } .garden-plant-status-icons i.status-water { background-color:var(--water-color); } .garden-plant-status-icons i.status-energy { background-color:var(--energy-color); } .garden-plant-status-icons i.status-pests { background-color:var(--pesticide-color); } .garden-plant-status-icons i.status-wilted { background-color:var(--danger-color); }
+        .garden-plant-name { font-size:.75em; font-weight: 600; color:var(--text-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-top: 0px; width: 100%; padding: 0 5px; }
+        .garden-plant-rare { position:absolute;bottom:8px;left:8px;font-size:.9em;color:gold;text-shadow:0 0 4px black; z-index: 2;} .garden-plant-rare i { margin-right:3px; }
+        .sidebar-container-tw {} .sidebar-container-tw::-webkit-scrollbar { width: 6px; } .sidebar-container-tw::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} .sidebar-container-tw::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } .sidebar-container-tw::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
+        .sidebar-section { margin-bottom: 1rem; padding: 1rem; border-radius: var(--border-radius); background: var(--card-background); box-shadow: 0 2px 5px var(--shadow-color); border: 1px solid #e8e8e8; } .sidebar-section:last-child { margin-bottom:0;}
+        .sidebar-section.scrollable > div, .sidebar-section.scrollable > ul, .sidebar-section.scrollable > ol { max-height: 150px; overflow-y: auto; padding-right: 5px; }
+        .sidebar-section.scrollable > div::-webkit-scrollbar, .sidebar-section.scrollable > ul::-webkit-scrollbar, .sidebar-section.scrollable > ol::-webkit-scrollbar { width: 5px; } .sidebar-section.scrollable > div::-webkit-scrollbar-track, .sidebar-section.scrollable > ul::-webkit-scrollbar-track, .sidebar-section.scrollable > ol::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} .sidebar-section.scrollable > div::-webkit-scrollbar-thumb, .sidebar-section.scrollable > ul::-webkit-scrollbar-thumb, .sidebar-section.scrollable > ol::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } .sidebar-section.scrollable > div::-webkit-scrollbar-thumb:hover, .sidebar-section.scrollable > ul::-webkit-scrollbar-thumb:hover, .sidebar-section.scrollable > ol::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
         .sidebar-section h3 { color:#333;margin-bottom:10px;text-align:left;font-size:1em; font-weight:600;padding-bottom:6px;border-bottom:1px solid #eee; } .sidebar-section h3 i { margin-right:8px;color:var(--primary-color); }
-        .sidebar-buttons button { display: flex; align-items: center; justify-content: center; width: 100%; padding: 0.6rem 1rem; margin-bottom: 0.5rem; font-size: .9em; font-weight: 500; color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: all .3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .sidebar-buttons button i { margin-right: 0.5rem; }
-        #create-plant-button { background-color: var(--primary-color); } 
-        #create-plant-button:hover:not(:disabled){background-color:var(--primary-dark); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        #shop-button { background-color: var(--secondary-color); } 
-        #shop-button:hover:not(:disabled){ background-color: var(--secondary-dark); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .sidebar-buttons button { display: flex; align-items: center; justify-content: center; width: 100%; padding: 0.6rem 1rem; margin-bottom: 0.5rem; font-size: .9em; font-weight: 500; color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: all .3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1); } .sidebar-buttons button i { margin-right: 0.5rem; }
+        #create-plant-button { background-color: var(--primary-color); } #create-plant-button:hover:not(:disabled){background-color:var(--primary-dark); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        #shop-button { background-color: var(--secondary-color); } #shop-button:hover:not(:disabled){ background-color: var(--secondary-dark); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
         .sidebar-buttons button:disabled{background-color:#bdbdbd;cursor:not-allowed;opacity:.7; box-shadow: none;}
-        .user-setup-container { padding: 1rem; }
-        .user-setup { padding:0;background-color:transparent;border:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px; } .user-setup label { font-weight:600;color:#555;font-size:.85em;flex-shrink:0; } .user-setup input[type="text"] { padding:7px 9px;border:1px solid #ccc;border-radius:5px;font-size:.85em;flex-grow:1;min-width:80px; } #connection-status { margin-left:auto; font-size:.7em;font-weight:500;color:var(--subtle-text-color);background-color:#eee;padding:3px 8px;border-radius:10px;display:inline-block;border:1px solid #e0e0e0;transition:background-color .5s ease,color .5s ease;min-width:80px;text-align:center; } #connection-status.connected{background-color:var(--primary-light);color:var(--primary-dark);border-color:var(--primary-color)} #connection-status.disconnected{background-color:#ffebee;color:var(--danger-color);border-color:#ef9a9a}
+        .user-setup-container { padding: 1rem; } .user-setup { padding:0;background-color:transparent;border:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px; } .user-setup label { font-weight:600;color:#555;font-size:.85em;flex-shrink:0; } .user-setup input[type="text"] { padding:7px 9px;border:1px solid #ccc;border-radius:5px;font-size:.85em;flex-grow:1;min-width:80px; } #connection-status { margin-left:auto; font-size:.7em;font-weight:500;color:var(--subtle-text-color);background-color:#eee;padding:3px 8px;border-radius:10px;display:inline-block;border:1px solid #e0e0e0;transition:background-color .5s ease,color .5s ease;min-width:80px;text-align:center; } #connection-status.connected{background-color:var(--primary-light);color:var(--primary-dark);border-color:var(--primary-color)} #connection-status.disconnected{background-color:#ffebee;color:var(--danger-color);border-color:#ef9a9a}
         .player-stats { font-size: 0.85em; color: var(--subtle-text-color); margin-top: 8px; text-align: left; } .player-stats span { font-weight: 600; color: var(--text-color); } .player-stats .coins { color: var(--secondary-dark); font-weight: 700; } .player-stats i.coins { color: var(--secondary-dark); margin-left: 2px; }
-        #quest-display { background-color: #E3F2FD; border: 1px solid #BBDEFB; border-radius: 8px; padding: 10px; font-size: 0.8em; text-align: left; } #quest-display.completed { background-color: #E8F5E9; border-color: #C8E6C9; } #quest-description { display: block; margin-bottom: 4px; font-weight: 500;} #quest-progress { font-weight: 600; color: var(--primary-dark); }
-        #leaderboard-list { list-style:none;padding:0;margin:0;font-size:.8em;max-height:120px;overflow-y:auto; } #leaderboard-list li { display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #eee; } #leaderboard-list li:last-child{border-bottom:none} #leaderboard-list .lb-rank { font-weight:600;min-width:20px;text-align:right;margin-right:8px;color:var(--subtle-text-color);} #leaderboard-list .lb-name { flex-grow:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:8px;} #leaderboard-list .lb-score { font-weight:700;color:var(--primary-dark); }
-        #log-list { list-style:none;padding:0;margin:0;flex-grow:1;overflow-y:auto;text-align:left;background-color:#fdfdfd;border:1px solid #e0e0e0;border-radius:6px;padding:8px;scrollbar-width:thin;scrollbar-color:var(--primary-color) #f0f0f0;font-size:.75em;min-height:100px; } #log-list::-webkit-scrollbar{width:6px} #log-list::-webkit-scrollbar-thumb{background-color:var(--primary-color);border-radius:3px;border:1px solid #f0f0f0} #log-list li{padding:4px 6px;border-bottom:1px dashed #e0e0e0;color:#444;opacity:0;animation:fadeInLog .6s ease forwards;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap} #log-list li:last-child{border-bottom:none} #log-list li .log-message{flex-grow:1;margin-right:6px} #log-list li .log-user{font-weight:700;color:var(--primary-color);margin-right:3px} #log-list li .log-time{font-size:.8em;color:#999;white-space:nowrap;margin-left:auto} @keyframes fadeInLog{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
-
-        /* --- Detail View (inchangé) --- */
+        #quest-display { background-color: #E3F2FD; border: 1px solid #BBDEFB; border-radius: 8px; padding: 10px; font-size: 0.8em; text-align: left; transition: background-color 0.3s ease, border-color 0.3s ease; } #quest-display.completed { background-color: #E8F5E9; border-color: #C8E6C9; } #quest-description { display: block; margin-bottom: 4px; font-weight: 500;} #quest-progress { font-weight: 600; color: var(--primary-dark); }
+        #leaderboard-list { list-style:none;padding:0;margin:0;font-size:.8em; overflow-y:auto; } #leaderboard-list li { display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #eee; } #leaderboard-list li:last-child{border-bottom:none} #leaderboard-list .lb-rank { font-weight:600;min-width:20px;text-align:right;margin-right:8px;color:var(--subtle-text-color);} #leaderboard-list .lb-name { flex-grow:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:8px;} #leaderboard-list .lb-score { font-weight:700;color:var(--primary-dark); }
+        #log-list { list-style:none;padding:0;margin:0;flex-grow:1; overflow-y:auto;text-align:left;background-color:#fdfdfd;border:1px solid #e0e0e0;border-radius:6px;padding:8px;font-size:.75em; } #log-list li{padding:4px 6px;border-bottom:1px dashed #e0e0e0;color:#444;opacity:0;animation:fadeInLog .6s ease forwards;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap} #log-list li:last-child{border-bottom:none} #log-list li .log-message{flex-grow:1;margin-right:6px} #log-list li .log-user{font-weight:700;color:var(--primary-color);margin-right:3px} #log-list li .log-time{font-size:.8em;color:#999;white-space:nowrap;margin-left:auto} @keyframes fadeInLog{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
         #detail-view { border:1px solid #dcedc8; border-radius: var(--border-radius); padding: 1rem; background-color:#fcfcfc; text-align:center; }
-        #detail-view.hidden { display:none; }
-        #detail-placeholder { color:var(--subtle-text-color);font-style:italic;font-size:.85em; padding: 20px 0; }
+        #detail-view.hidden { display:none; } #detail-placeholder { color:var(--subtle-text-color);font-style:italic;font-size:.85em; padding: 20px 0; }
+        #detail-content { transition: opacity 0.3s ease; } #detail-content.hidden { display: none; }
         #detail-plant-name { font-size:1.15em;font-weight:600;color:var(--primary-dark);margin-bottom:10px; }
         #detail-plant-icon-container { margin-bottom:10px; position: relative; display: inline-block; background-color: #f0f0f0; border-radius: 50%; padding: 6px; border: 1px solid #ddd; }
         #detail-pot-color { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 75%; height: 14px; border-radius: 0 0 12px 12px; border: 1px solid rgba(0,0,0,0.2); background-color: var(--fertilizer-color); transition: background-color var(--transition-speed) ease; z-index: 0; }
-        #detail-plant-icon { font-size:3.8em;transition:all var(--transition-speed) ease; display: block; position: relative; z-index: 1; }
-        #detail-plant-icon.growing { animation: growPulseDetail 0.6s ease-out; } @keyframes growPulseDetail { 0%{transform:scale(1)} 50%{transform:scale(1.2) rotate(3deg)} 100%{transform:scale(1)} }
+        #detail-plant-icon { font-size:3.8em; transition: color 0.5s ease, filter 0.8s ease, transform 0.6s ease-out, font-size 0.4s ease; display: block; position: relative; z-index: 1; }
+        #detail-plant-icon.action-pulse { animation: growPulseDetail 0.6s ease-out; }
+        @keyframes growPulseDetail { 0%{transform:scale(1)} 50%{transform:scale(1.15) rotate(3deg)} 100%{transform:scale(1)} }
         #detail-rare-trait { font-size:.8em;font-style:italic;color:var(--music-color);margin-top:5px;display:block; background: #fff3e0; padding: 2px 5px; border-radius: 4px; display: inline-block;} #detail-rare-trait.hidden { display: none; } #detail-rare-trait i { margin-right:4px; color: gold; }
-        #detail-growth-info { margin-top: 6px; margin-bottom: 8px; } 
+        #detail-growth-info { margin-top: 6px; margin-bottom: 8px; }
         #detail-growth-stage { font-size:.8em;font-weight:600;color:var(--primary-color);background-color:#e8f5e9;padding:3px 7px;border-radius:7px;border:1px solid var(--healthy-color);display:inline-block; }
         #detail-pot-size { font-size:.7em;color:var(--subtle-text-color);margin-left:5px; }
-        #detail-plant-status { font-weight:600;min-height:16px;font-size:.9em;margin-top:6px;margin-bottom:10px; }
+        #detail-plant-status { font-weight:600;min-height:16px;font-size:.9em;margin-top:6px;margin-bottom:10px; transition: color 0.5s ease; }
         #detail-plant-status.wilting{color:var(--danger-color)} #detail-plant-status.thirsty{color:var(--warning-color)} #detail-plant-status.needs-light{color:#a1887f} #detail-plant-status.pests{color:var(--pesticide-color)} #detail-plant-status.healthy{color:var(--healthy-color)} #detail-plant-status.happy{color:var(--primary-color)}
-        .level-indicator-container { width:100%;margin:4px auto; } 
-        .level-indicator-label { font-size:.7em;margin-bottom:2px; text-align: left; display: block; }
+        #detail-plant-status.danger { color: var(--danger-color); } #detail-plant-status.warning { color: var(--warning-color); }
+        .level-indicator-container { width:100%;margin:4px auto; } .level-indicator-label { font-size:.7em;margin-bottom:2px; text-align: left; display: block; }
         .level-bar-background { background-color: #e5e7eb; border-radius: 9999px; overflow: hidden; height: 0.75rem; margin-bottom: 5px; }
-        .level-bar { background-color: var(--primary-color); height: 100%; border-radius: 9999px; transition: width 0.3s ease-in-out; width: 0%; }
+        .level-bar { background-color: var(--primary-color); height: 100%; border-radius: 9999px; transition: width 0.4s ease-in-out, background-color 0.4s ease; width: 0%; }
         #observation-feedback { font-size:.8em;font-style:italic;color:var(--observe-color);margin-top:10px;padding:6px;background-color:#e3f2fd;border-radius:5px;min-height:2.5em;text-align:left; } #observation-feedback:empty{display:none}
-        #detail-controls { display:grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap:6px; margin-top:15px; } 
-        #detail-controls .control-button { padding: 6px 10px; font-size: .75em; min-width: auto; border: none; border-radius: 6px; color: white; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; } 
+        #detail-controls { display:grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap:6px; margin-top:15px; }
+        #detail-controls .control-button { padding: 6px 10px; font-size: .75em; min-width: auto; border: none; border-radius: 6px; color: white; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; }
         #detail-controls .control-button:hover:not(:disabled) { filter: brightness(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.15); transform: translateY(-1px); }
-        #detail-controls .control-button:disabled { background-color: #bdbdbd !important; cursor: not-allowed; opacity: 0.7; box-shadow: none; }
+        #detail-controls .control-button:disabled { background-color: #bdbdbd !important; cursor: not-allowed; opacity: 0.7; box-shadow: none; transform: none; filter: none; }
         #detail-controls .control-button i { font-size:.9em; margin-right: 4px; }
         #observe-button { background-color: var(--observe-color); } #observe-button:hover:not(:disabled) { background-color: #1976d2; } #harvest-button { background-color: var(--harvest-color); } #harvest-button:hover:not(:disabled) { background-color: #f57c00; } #mist-button { background-color: var(--mist-color); } #mist-button:hover:not(:disabled) { background-color: #0097a7; } #water-button { background-color: var(--water-color); } #water-button:hover:not(:disabled) { background-color: #0288d1; } #toggle-light-button { background-color: var(--secondary-color); } #toggle-light-button:hover:not(:disabled) { background-color: #ffa000; } #talk-button { background-color: var(--healthy-color); } #talk-button:hover:not(:disabled) { background-color: #689f38; } #fertilize-button { background-color: var(--fertilizer-color); } #fertilize-button:hover:not(:disabled) { background-color: #5d4037; } #pesticide-button { background-color: var(--pesticide-color); } #pesticide-button:hover:not(:disabled) { background-color: #7b1fa2; } #repot-button { background-color: var(--repot-color); } #repot-button:hover:not(:disabled) { background-color: #455a64; } #music-button { background-color: var(--music-color); } #music-button:hover:not(:disabled) { background-color: #c2185b; } #clean-button { background-color: var(--clean-color); color: #555; } #clean-button:hover:not(:disabled) { background-color: #afb42b; } #prune-button { background-color: var(--prune-color); } #prune-button:hover:not(:disabled) { background-color: #00796b; } #env-button { background-color: var(--env-color); } #env-button:hover:not(:disabled) { background-color: #e64a19; }
         .card-footer { margin-top:15px;padding-top:10px;border-top:1px solid #eee;font-size:.7em;color:var(--subtle-text-color);text-align:center; }
-
-        /* --- Modals (inchangé) --- */
-         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 100; padding: 15px;}
-         .modal-overlay.visible { display: flex; }
-         .modal-content { background-color: white; padding: 25px; border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0,0,0,0.2); max-width: 95%; width: 450px; text-align: center; max-height: 85vh; display: flex; flex-direction: column;}
-         .modal-content h3 { margin-bottom: 20px; color: var(--primary-dark); font-size: 1.4em;}
-         .modal-content label { display: block; margin-bottom: 5px; font-weight: 600; text-align: left; font-size: 0.9em;}
-         .modal-content input[type="text"] { width: 100%; padding: 10px 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9em;}
-         .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: auto; }
-         .modal-buttons button { padding: 9px 22px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9em; transition: all 0.2s ease; }
-         .modal-buttons .confirm-button { background-color: var(--primary-color); color: white; } .modal-buttons .confirm-button:hover { background-color: var(--primary-dark); }
-         .modal-buttons .cancel-button { background-color: #e0e0e0; color: #555; } .modal-buttons .cancel-button:hover { background-color: #bdbdbd; }
-         .close-panel-button { position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 2em; cursor: pointer; color: #aaa; line-height: 1;}
-         .close-panel-button:hover { color: #666; }
-
-        /* Shop Modal Styles (inchangé) */
-         #shop-panel .panel-content { flex-grow: 1; overflow-y: auto; margin-top: 10px; }
-         #shop-panel ul { list-style: none; padding: 0; margin: 0; }
-         #shop-panel li { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px dashed #eee; }
-         #shop-panel .item-info { text-align: left; flex-grow: 1; margin-right: 10px;}
-         #shop-panel .item-name { font-weight: 600; font-size: 0.9em; display: block;}
-         #shop-panel .item-desc { font-size: 0.8em; color: var(--subtle-text-color); display: block; margin-top: 2px; }
-         #shop-panel .item-price { font-weight: 700; color: var(--secondary-dark); margin-right: 10px; font-size: 0.9em;}
-         #shop-panel .buy-button { padding: 5px 10px; font-size: 0.8em; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; flex-shrink: 0; transition: background-color 0.2s ease;}
-         #shop-panel .buy-button:disabled { background-color: #ccc; } #shop-panel .buy-button:hover:not(:disabled) { background-color: var(--primary-dark); }
-
-
-        /* Responsive adjustments using Tailwind's breakpoints where possible */
-        @media(max-width:900px){
-            .sidebar-responsive-wrap { display: flex; flex-wrap: wrap; gap: 1rem; }
-            .sidebar-section { width: calc(50% - 0.5rem); margin-bottom: 1rem !important; } 
-            .sidebar-section.full-width-mobile { width: 100%; } 
-        }
-        @media(max-width:600px){
-            #garden-view{grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:15px} /* Ajusté pour mobile */
-            .sidebar-section { width: 100%; } 
-            #detail-controls .control-button{width: calc(50% - 4px);}
-        } 
-        @keyframes fadeInCard{from{opacity:0;transform:translateY(25px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 100; padding: 15px; opacity: 0; transition: opacity 0.3s ease;}
+        .modal-overlay.visible { display: flex; opacity: 1; }
+        .modal-content { background-color: white; padding: 25px; border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0,0,0,0.2); max-width: 95%; width: 450px; text-align: center; max-height: 85vh; display: flex; flex-direction: column; transform: scale(0.95); transition: transform 0.3s ease;}
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .modal-content h3 { margin-bottom: 20px; color: var(--primary-dark); font-size: 1.4em;} .modal-content label { display: block; margin-bottom: 5px; font-weight: 600; text-align: left; font-size: 0.9em;} .modal-content input[type="text"] { width: 100%; padding: 10px 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9em;} .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: auto; } .modal-buttons button { padding: 9px 22px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9em; transition: all 0.2s ease; } .modal-buttons .confirm-button { background-color: var(--primary-color); color: white; } .modal-buttons .confirm-button:hover { background-color: var(--primary-dark); } .modal-buttons .cancel-button { background-color: #e0e0e0; color: #555; } .modal-buttons .cancel-button:hover { background-color: #bdbdbd; }
+        .close-panel-button { position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 2em; cursor: pointer; color: #aaa; line-height: 1;} .close-panel-button:hover { color: #666; }
+        #shop-modal .panel-content { flex-grow: 1; overflow-y: auto; margin-top: 10px; padding-right: 5px;} #shop-modal .panel-content::-webkit-scrollbar { width: 5px; } #shop-modal .panel-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} #shop-modal .panel-content::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } #shop-modal .panel-content::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
+        #shop-modal ul { list-style: none; padding: 0; margin: 0; } #shop-modal li { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px dashed #eee; } #shop-modal .item-info { text-align: left; flex-grow: 1; margin-right: 10px;} #shop-modal .item-name { font-weight: 600; font-size: 0.9em; display: block;} #shop-modal .item-desc { font-size: 0.8em; color: var(--subtle-text-color); display: block; margin-top: 2px; } #shop-modal .item-price { font-weight: 700; color: var(--secondary-dark); margin-right: 10px; font-size: 0.9em;} #shop-modal .buy-button { padding: 5px 10px; font-size: 0.8em; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; flex-shrink: 0; transition: background-color 0.2s ease;} #shop-modal .buy-button:disabled { background-color: #ccc; cursor: not-allowed; } #shop-modal .buy-button:hover:not(:disabled) { background-color: var(--primary-dark); }
+        @media(max-width:900px){ .sidebar-responsive-wrap { display: flex; flex-direction: column; gap: 1rem; } .sidebar-section { width: 100%; margin-bottom: 1rem !important; } }
+        @media(max-width:600px){ #garden-view{grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:15px} #detail-controls { grid-template-columns: repeat(2, 1fr); } #detail-controls .control-button { font-size: 0.7em; padding: 5px 8px; } #detail-controls .control-button i { margin-right: 3px; font-size: 0.8em; } }
         @keyframes buttonPulse{0%{transform:scale(1)}50%{transform:scale(1.05);filter:brightness(1.1)}100%{transform:scale(1)}}
-        
-    </style>
+
+     </style>
 </head>
 <body class="bg-gray-100">
 
     <div id="event-banner"><i class="fas fa-star"></i> Aucun événement en cours.</div>
 
-    <div class="container-tw flex flex-col md:flex-row gap-6 mt-12 md:mt-16"> 
-        <main id="garden-container" class="card-base w-full md:w-2/3 lg:w-3/4 p-5 shadow-lg order-1 md:order-1"> 
+    <div class="container-tw flex flex-col md:flex-row gap-6 mt-12 md:mt-16">
+
+        <main id="garden-container" class="card-base w-full md:w-2/3 lg:w-3/4 p-5 shadow-lg order-1 md:order-1">
             <div id="garden-header">
                 <h2><i class="fas fa-tree"></i> Jardin</h2>
                 <button id="water-all-button" title="Arroser légèrement toutes les plantes" disabled><i class="fas fa-cloud-rain"></i> Tout Arroser</button>
             </div>
             <div id="garden-view">
-                </div>
+                <p style="text-align:center; color: var(--subtle-text-color); margin-top: 20px; grid-column: 1 / -1;">Chargement du jardin...</p>
+            </div>
         </main>
 
-        <aside class="sidebar-container-tw w-full md:w-1/3 lg:w-1/4 order-2 md:order-2 flex flex-col gap-4"> 
-            
-            <section class="sidebar-section" id="detail-view"> 
+        <aside class="sidebar-container-tw w-full md:w-1/3 lg:w-1/4 order-2 md:order-2 flex flex-col gap-4">
+
+            <section class="sidebar-section" id="detail-view">
                 <h3><i class="fas fa-eye"></i> Détails Plante</h3>
                 <div id="detail-placeholder">Sélectionnez une plante dans le jardin.</div>
-                <div id="detail-content" class="hidden"> 
+                <div id="detail-content" class="hidden">
                     <h4 id="detail-plant-name">--</h4>
                     <div id="detail-plant-icon-container">
-                        <div id="detail-pot-color"></div> 
+                        <div id="detail-pot-color"></div>
                         <i id="detail-plant-icon" class="fas fa-question-circle"></i>
                     </div>
                     <div id="detail-growth-info">
                         <span id="detail-growth-stage">--</span>
                         <span id="detail-pot-size">(--)</span>
                     </div>
-                    <span id="detail-rare-trait" class="hidden"></span> 
+                    <span id="detail-rare-trait" class="hidden"></span>
                     <p id="detail-plant-status">--</p>
-                    
+
                     <div id="detail-level-indicators">
                         <div class="level-indicator-container">
                             <span class="level-indicator-label" id="detail-health-level-label">Santé (...)</span>
-                            <div class="level-bar-background"><div class="level-bar" id="detail-health-level-bar"></div></div>
+                            <div class="level-bar-background"><div class="level-bar" id="detail-health-level-bar" style="background-image: linear-gradient(to right, var(--health-color-low) 0%, var(--health-color-mid) 50%, var(--health-color-high) 100%); background-color: transparent;"></div></div>
                         </div>
                         <div class="level-indicator-container">
                             <span class="level-indicator-label" id="detail-water-level-label">Eau (...)</span>
-                            <div class="level-bar-background"><div class="level-bar" id="detail-water-level-bar"></div></div>
+                            <div class="level-bar-background"><div class="level-bar" id="detail-water-level-bar" style="background-color: var(--water-color);"></div></div>
                         </div>
                         <div class="level-indicator-container">
                             <span class="level-indicator-label" id="detail-energy-level-label">Énergie (...)</span>
-                            <div class="level-bar-background"><div class="level-bar" id="detail-energy-level-bar"></div></div>
+                            <div class="level-bar-background"><div class="level-bar" id="detail-energy-level-bar" style="background-color: var(--energy-color);"></div></div>
                         </div>
                         <div class="level-indicator-container">
                             <span class="level-indicator-label" id="detail-fertilizer-level-label">Engrais (...)</span>
-                            <div class="level-bar-background"><div class="level-bar" id="detail-fertilizer-level-bar"></div></div>
+                            <div class="level-bar-background"><div class="level-bar" id="detail-fertilizer-level-bar" style="background-color: var(--fertilizer-color);"></div></div>
                         </div>
                          <div class="level-indicator-container">
                             <span class="level-indicator-label" id="detail-pest-level-label">Nuisibles (...)</span>
-                            <div class="level-bar-background"><div class="level-bar" id="detail-pest-level-bar"></div></div>
+                            <div class="level-bar-background"><div class="level-bar" id="detail-pest-level-bar" style="background-color: var(--pesticide-color);"></div></div>
                         </div>
                     </div>
-                    
-                    <div id="observation-feedback"></div> 
-                    <div id="detail-controls" class="controls"> 
+
+                    <div id="observation-feedback"></div>
+
+                    <div id="detail-controls" class="controls">
                         <button id="water-button" class="control-button" disabled title="Arroser"><i class="fas fa-tint"></i> Arroser</button>
                         <button id="toggle-light-button" class="control-button" disabled title="Lumière"><i class="fas fa-sun"></i> Lumière</button>
-                        <button id="mist-button" class="control-button" disabled title="Brumiser"><i class="fas fa-shower"></i> Brumiser</button> 
+                        <button id="mist-button" class="control-button" disabled title="Brumiser"><i class="fas fa-shower"></i> Brumiser</button>
                         <button id="talk-button" class="control-button" disabled title="Parler"><i class="fas fa-comment-dots"></i> Parler</button>
                         <button id="fertilize-button" class="control-button" disabled title="Fertiliser"><i class="fas fa-vial"></i> Fertiliser</button>
                         <button id="pesticide-button" class="control-button" disabled title="Pesticide"><i class="fas fa-spray-can-sparkles"></i> Pesticide</button>
@@ -359,21 +195,21 @@
                         <button id="music-button" class="control-button" disabled title="Musique"><i class="fas fa-music"></i> Musique</button>
                         <button id="prune-button" class="control-button" disabled title="Tailler"><i class="fas fa-cut"></i> Tailler</button>
                         <button id="repot-button" class="control-button" disabled title="Rempoter"><i class="fas fa-seedling"></i> Rempoter</button>
-                        <button id="observe-button" class="control-button" disabled title="Observer"><i class="fas fa-search"></i> Observer</button> 
-                        <button id="harvest-button" class="control-button" disabled title="Récolter"><i class="fas fa-hand-holding-seedling"></i> Récolter</button> 
-                        <button id="env-button" class="control-button" disabled title="Environ."><i class="fas fa-cloud-sun-rain"></i> Environ.</button>
+                        <button id="observe-button" class="control-button" disabled title="Observer"><i class="fas fa-search"></i> Observer</button>
+                        <button id="harvest-button" class="control-button" disabled title="Récolter"><i class="fas fa-hand-holding-seedling"></i> Récolter</button>
+                        <button id="env-button" class="control-button" disabled title="Vérifier Environnement"><i class="fas fa-cloud-sun-rain"></i> Environ.</button>
                     </div>
                 </div>
             </section>
 
-            <div class="sidebar-responsive-wrap flex-grow overflow-y-auto"> 
-                
+            <div class="sidebar-responsive-wrap flex-grow">
+
                 <section class="sidebar-section sidebar-buttons">
-                    <h3><i class="fas fa-toolbox"></i> Actions Jardin</h3> 
+                    <h3><i class="fas fa-toolbox"></i> Actions Jardin</h3>
                     <button id="create-plant-button" title="Créer une nouvelle plante communautaire" disabled>
                         <i class="fas fa-plus-circle"></i> Créer Plante
                     </button>
-                    <button id="shop-button" title="Ouvrir la boutique" > 
+                    <button id="shop-button" title="Ouvrir la boutique" disabled>
                         <i class="fas fa-store"></i> Boutique
                     </button>
                 </section>
@@ -382,7 +218,7 @@
                     <h3><i class="fas fa-user"></i> Joueur</h3>
                     <div class="user-setup">
                         <label for="username">Nom:</label>
-                        <input type="text" id="username" placeholder="Entrez votre nom">
+                        <input type="text" id="username" placeholder="Entrez votre nom" maxlength="20">
                         <div id="connection-status">Déconnecté</div>
                     </div>
                     <div class="player-stats">
@@ -390,7 +226,7 @@
                     </div>
                 </section>
 
-                <section class="sidebar-section quest-container"> 
+                <section class="sidebar-section quest-container">
                     <h3><i class="fas fa-tasks"></i> Quête</h3>
                     <div id="quest-display">
                         <span id="quest-description">Chargement...</span>
@@ -398,29 +234,29 @@
                     </div>
                 </section>
 
-                <section class="sidebar-section leaderboard-container scrollable full-width-mobile"> 
+                <section class="sidebar-section leaderboard-container scrollable">
                     <h3><i class="fas fa-trophy"></i> Classement</h3>
                     <ol id="leaderboard-list"><li>Chargement...</li></ol>
                 </section>
 
-                <section class="sidebar-section action-log-container scrollable full-width-mobile"> 
+                <section class="sidebar-section action-log-container scrollable">
                     <h3><i class="fas fa-history"></i> Journal</h3>
-                    <ul id="log-list"><li>Connexion...</li></ul>
+                    <ul id="log-list"><li>Connexion au serveur...</li></ul>
                 </section>
-            </div> 
-            
-            <footer class="card-footer mt-auto">Jardin Communautaire v7.3</footer>
+            </div>
+
+            <footer class="card-footer mt-auto text-xs">Jardin Communautaire v7.4</footer>
 
         </aside>
 
-    </div> 
+    </div>
 
     <div class="modal-overlay" id="create-plant-modal">
         <div class="modal-content">
-             <button class="close-panel-button" onclick="toggleModal('create-plant-modal', false)">&times;</button>
+             <button class="close-panel-button" onclick="toggleModal('create-plant-modal', false)" title="Fermer">&times;</button>
             <h3><i class="fas fa-leaf"></i> Nommer la Nouvelle Plante</h3>
             <label for="new-plant-name">Nom :</label>
-            <input type="text" id="new-plant-name" placeholder="Nom de la plante" maxlength="30">
+            <input type="text" id="new-plant-name" placeholder="Nom de la plante (max 30)" maxlength="30">
             <div class="modal-buttons">
                 <button class="cancel-button" id="cancel-create-button">Annuler</button>
                 <button class="confirm-button" id="confirm-create-button">Créer</button>
@@ -430,271 +266,771 @@
 
      <div class="modal-overlay" id="shop-modal">
         <div class="modal-content">
-             <button class="close-panel-button" onclick="toggleModal('shop-modal', false)">&times;</button>
+             <button class="close-panel-button" onclick="toggleModal('shop-modal', false)" title="Fermer">&times;</button>
             <h3><i class="fas fa-store"></i> Boutique</h3>
             <div class="panel-content">
-                 <p style="font-size: 0.9em; margin-bottom: 10px;">Vos Pièces : <span id="shop-coins" class="coins">0</span> <i class="fas fa-coins coins"></i></p>
+                 <p style="font-size: 0.9em; margin-bottom: 10px; text-align: left;">Vos Pièces : <span id="shop-coins" class="coins font-bold">0</span> <i class="fas fa-coins coins"></i></p>
                 <ul id="shop-item-list">
-                    </ul>
+                    <li>Chargement des articles...</li>
+                 </ul>
             </div>
         </div>
     </div>
 
 
-    <script src="/socket.io/socket.io.js"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script> 
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
 
     <script>
-        // --- Références DOM (inchangé) ---
-        const connectionStatusEl=document.getElementById('connection-status'); const usernameInput=document.getElementById('username');
-        const gardenView=document.getElementById('garden-view'); const createPlantButton=document.getElementById('create-plant-button');
-        const shopButton = document.getElementById('shop-button'); const leaderboardList=document.getElementById('leaderboard-list');
-        const logList=document.getElementById('log-list'); const waterAllButton = document.getElementById('water-all-button');
-        const playerScoreEl = document.getElementById('player-score'); const playerCoinsEl = document.getElementById('player-coins');
-        const questDisplayEl = document.getElementById('quest-display'); const questDescriptionEl = document.getElementById('quest-description'); const questProgressEl = document.getElementById('quest-progress');
+        // --- DOM References ---
+        // (Unchanged from previous version)
+        const connectionStatusEl = document.getElementById('connection-status');
+        const usernameInput = document.getElementById('username');
+        const gardenView = document.getElementById('garden-view');
+        const createPlantButton = document.getElementById('create-plant-button');
+        const shopButton = document.getElementById('shop-button');
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const logList = document.getElementById('log-list');
+        const waterAllButton = document.getElementById('water-all-button');
+        const playerScoreEl = document.getElementById('player-score');
+        const playerCoinsEl = document.getElementById('player-coins');
+        const questDisplayEl = document.getElementById('quest-display');
+        const questDescriptionEl = document.getElementById('quest-description');
+        const questProgressEl = document.getElementById('quest-progress');
         const eventBannerEl = document.getElementById('event-banner');
-        const detailView=document.getElementById('detail-view'); const detailPlaceholder=document.getElementById('detail-placeholder');
-        const detailContent=document.getElementById('detail-content'); const detailPlantNameEl=document.getElementById('detail-plant-name');
-        const detailPlantIcon=document.getElementById('detail-plant-icon'); const detailRareTraitEl=document.getElementById('detail-rare-trait');
-        const detailPlantStatus=document.getElementById('detail-plant-status'); 
-        const detailHealthLevelBar = document.getElementById('detail-health-level-bar'); 
-        const detailHealthLevelLabel = document.getElementById('detail-health-level-label'); 
-        const detailWaterLevelBar=document.getElementById('detail-water-level-bar'); 
-        const detailWaterLevelLabel=document.getElementById('detail-water-level-label'); 
-        const detailEnergyLevelBar=document.getElementById('detail-energy-level-bar'); 
-        const detailEnergyLevelLabel=document.getElementById('detail-energy-level-label'); 
-        const detailFertilizerLevelBar=document.getElementById('detail-fertilizer-level-bar'); 
-        const detailFertilizerLevelLabel=document.getElementById('detail-fertilizer-level-label'); 
-        const detailPestLevelBar=document.getElementById('detail-pest-level-bar'); 
-        const detailPestLevelLabel=document.getElementById('detail-pest-level-label'); 
-        const detailGrowthStageEl=document.getElementById('detail-growth-stage');
-        const detailPotSizeEl=document.getElementById('detail-pot-size'); const detailPotColorEl = document.getElementById('detail-pot-color');
-        const observationFeedbackEl=document.getElementById('observation-feedback');
-        const detailControls=document.getElementById('detail-controls');
-        const detailActionButtons={waterPlant:detailControls.querySelector('#water-button'),toggleLight:detailControls.querySelector('#toggle-light-button'),talkToPlant:detailControls.querySelector('#talk-button'),fertilizePlant:detailControls.querySelector('#fertilize-button'),applyPesticide:detailControls.querySelector('#pesticide-button'),cleanLeaves:detailControls.querySelector('#clean-button'),playMusic:detailControls.querySelector('#music-button'),prunePlant:detailControls.querySelector('#prune-button'),repotPlant:detailControls.querySelector('#repot-button'),checkEnvironment:detailControls.querySelector('#env-button'),observePlant:detailControls.querySelector('#observe-button'),harvestSeed:detailControls.querySelector('#harvest-button'),gentleMist:detailControls.querySelector('#mist-button')};
-        const createPlantModal = document.getElementById('create-plant-modal'); const newPlantNameInput = document.getElementById('new-plant-name');
-        const confirmCreateButton = document.getElementById('confirm-create-button'); const cancelCreateButton = document.getElementById('cancel-create-button');
-        const shopModal = document.getElementById('shop-modal'); const shopItemList = document.getElementById('shop-item-list');
+        const detailView = document.getElementById('detail-view');
+        const detailPlaceholder = document.getElementById('detail-placeholder');
+        const detailContent = document.getElementById('detail-content');
+        const detailPlantNameEl = document.getElementById('detail-plant-name');
+        const detailPlantIconContainer = document.getElementById('detail-plant-icon-container');
+        const detailPlantIcon = document.getElementById('detail-plant-icon');
+        const detailPotColorEl = document.getElementById('detail-pot-color');
+        const detailRareTraitEl = document.getElementById('detail-rare-trait');
+        const detailPlantStatus = document.getElementById('detail-plant-status');
+        const detailGrowthStageEl = document.getElementById('detail-growth-stage');
+        const detailPotSizeEl = document.getElementById('detail-pot-size');
+        const detailHealthLevelBar = document.getElementById('detail-health-level-bar');
+        const detailHealthLevelLabel = document.getElementById('detail-health-level-label');
+        const detailWaterLevelBar = document.getElementById('detail-water-level-bar');
+        const detailWaterLevelLabel = document.getElementById('detail-water-level-label');
+        const detailEnergyLevelBar = document.getElementById('detail-energy-level-bar');
+        const detailEnergyLevelLabel = document.getElementById('detail-energy-level-label');
+        const detailFertilizerLevelBar = document.getElementById('detail-fertilizer-level-bar');
+        const detailFertilizerLevelLabel = document.getElementById('detail-fertilizer-level-label');
+        const detailPestLevelBar = document.getElementById('detail-pest-level-bar');
+        const detailPestLevelLabel = document.getElementById('detail-pest-level-label');
+        const observationFeedbackEl = document.getElementById('observation-feedback');
+        const detailControls = document.getElementById('detail-controls');
+        const detailActionButtons = { waterPlant: detailControls.querySelector('#water-button'), toggleLight: detailControls.querySelector('#toggle-light-button'), talkToPlant: detailControls.querySelector('#talk-button'), fertilizePlant: detailControls.querySelector('#fertilize-button'), applyPesticide: detailControls.querySelector('#pesticide-button'), cleanLeaves: detailControls.querySelector('#clean-button'), playMusic: detailControls.querySelector('#music-button'), prunePlant: detailControls.querySelector('#prune-button'), repotPlant: detailControls.querySelector('#repot-button'), checkEnvironment: detailControls.querySelector('#env-button'), observePlant: detailControls.querySelector('#observe-button'), harvestSeed: detailControls.querySelector('#harvest-button'), gentleMist: detailControls.querySelector('#mist-button') };
+        const createPlantModal = document.getElementById('create-plant-modal');
+        const newPlantNameInput = document.getElementById('new-plant-name');
+        const confirmCreateButton = document.getElementById('confirm-create-button');
+        const cancelCreateButton = document.getElementById('cancel-create-button');
+        const shopModal = document.getElementById('shop-modal');
+        const shopItemList = document.getElementById('shop-item-list');
         const shopCoinsEl = document.getElementById('shop-coins');
 
-        // --- Constantes & État Local (inchangé) ---
-         const COOLDOWNS = { talkToPlant: 60*1000, fertilizePlant: 5*60*1000, applyPesticide: 10*60*1000, repotPlant: 12*60*60*1000, playMusic: 15*60*1000, cleanLeaves: 2*60*1000, prunePlant: 6*60*60*1000, checkEnvironment: 30*1000, createPlant: 1*60*1000, observePlant: 1*60*1000, harvestSeed: 4*60*60*1000, gentleMist: 30*1000, waterAllPlants: 5*60*1000 };
-         const GROWTH_STAGES = { GRAINE:{n:"Graine",i:"fa-seedling",r:!1,p:!1},POUSSE:{n:"Pousse",i:"fa-seedling",r:!1,p:!1},JEUNE:{n:"Jeune Plante",i:"fa-leaf",r:!0,p:!1},MATURE:{n:"Plante Mature",i:"fa-spa",r:!0,p:!0},FLORAISON:{n:"En Fleur",i:"fa-fan",r:!0,p:!0}};
-         let localState = { username:"Jardinier", userId:null, isConnected:!1, plants:{}, selectedPlantId:null, lastCreateTime:0, lastWaterAllTime: 0, leaderboard:[], currentQuest: null, playerCoins: 0, shopItems: {} };
-         const MAX_LOG_ENTRIES = 50; // Limite pour le log
 
-        // --- Audio Synth (Tone.js - inchangé) ---
-         let synth = null; let audioReady = false;
-         function initAudio() { if (!audioReady) { Tone.start().then(() => { if (!synth) { try { synth = new Tone.Synth({ oscillator: { type: 'sine' }, volume: -12, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 } }).toDestination(); console.log("Synth audio initialisé."); audioReady = true; } catch (e) { console.error("Erreur init audio:", e); synth = null; } } }).catch(e => console.error("Tone.start a échoué:", e)); } }
-         function playSound(note = 'C4', duration = '16n', velocity = 0.5) { if (synth && audioReady && Tone.context.state === 'running') { try { synth.triggerAttackRelease(note, duration, Tone.now(), velocity); } catch(e) { console.error("Erreur son:", e); } } }
-         const sounds = { click: 'C5', buy: 'E5', quest: 'G5', water: 'A4', error: 'C3', create: 'G4', select: 'E4', mist: 'C6', observe: 'D5', waterPlant: 'A4', toggleLight: 'B4', talkToPlant: 'C4', fertilizePlant: 'D4', applyPesticide: 'E3', cleanLeaves: 'F4', playMusic: 'G4', prunePlant: 'A3', repotPlant: 'G3', checkEnvironment: 'E4', harvestSeed: 'C5' }; 
+        // --- Constants & Local State ---
+         // (Unchanged from previous version)
+         const COOLDOWNS = { talkToPlant: 60 * 1000, fertilizePlant: 5 * 60 * 1000, applyPesticide: 10 * 60 * 1000, repotPlant: 12 * 60 * 60 * 1000, playMusic: 15 * 60 * 1000, cleanLeaves: 2 * 60 * 1000, prunePlant: 6 * 60 * 60 * 1000, checkEnvironment: 30 * 1000, createPlant: 1 * 60 * 1000, observePlant: 1 * 60 * 1000, harvestSeed: 4 * 60 * 60 * 1000, gentleMist: 30 * 1000, waterAllPlants: 5 * 60 * 1000 };
+         const GROWTH_STAGES = { GRAINE: { n: "Graine", i: "fa-seedling", r: false, p: false }, POUSSE: { n: "Pousse", i: "fa-seedling", r: false, p: false }, JEUNE: { n: "Jeune Plante", i: "fa-leaf", r: true, p: false }, MATURE: { n: "Plante Mature",i: "fa-spa", r: true, p: true }, FLORAISON: { n: "En Fleur", i: "fa-fan", r: true, p: true } };
+         let localState = { username: "Jardinier", userId: null, isConnected: false, plants: {}, selectedPlantId: null, lastCreateTime: 0, lastWaterAllTime: 0, leaderboard: [], currentQuest: null, playerCoins: 0, shopItems: {}, currentEvent: null }; // Added currentEvent to localState
+         const MAX_LOG_ENTRIES = 50;
 
-        // --- Connexion Socket.IO (inchangé) ---
-         console.log("Connexion serveur..."); const socket=io();
 
-        // --- Fonctions Utilitaires (inchangé) ---
-         function formatTime(ts){if(!ts)return '';const tsn=Number(ts);return isNaN(tsn)?'':new Date(tsn).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
-         function toggleModal(modalId, show) { document.getElementById(modalId)?.classList.toggle('visible', show); }
+        // --- Audio Synth (Tone.js) ---
+        // (Unchanged from previous version)
+          let synth = null;
+          let audioReady = false;
+          function initAudio() { if (audioReady || (Tone.context && Tone.context.state !== 'running')) { if (Tone.context && Tone.context.state === 'suspended') { console.log("Audio context suspended, attempting to resume..."); Tone.context.resume().then(() => { console.log("Audio context resumed!"); audioReady = !!synth; }).catch(e => console.error("Failed to resume audio context:", e)); } return; } console.log("Initializing audio..."); Tone.start().then(() => { console.log("Tone.js started."); if (!synth) { try { synth = new Tone.Synth({ oscillator: { type: 'sine' }, volume: -15, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 } }).toDestination(); console.log("Synth audio initialized."); audioReady = true; } catch (e) { console.error("Error initializing synth:", e); synth = null; } } else { audioReady = true; } }).catch(e => { console.error("Tone.start() failed. Audio interaction might be needed.", e); }); }
+          function playSound(note = 'C4', duration = '16n', velocity = 0.4) { if (!audioReady || !synth || Tone.context.state !== 'running') { if(!audioReady) initAudio(); console.warn(`Audio not ready or context not running. Sound '${note}' skipped.`); return; } try { synth.triggerAttackRelease(note, duration, Tone.now(), velocity); } catch (e) { console.error(`Error playing sound ${note}:`, e); } }
+          const sounds = { click: 'C5', buy: 'E5', questComplete: 'G5', questUpdate: 'D5', water: 'A4', error: 'C3', create: 'G4', select: 'E4', mist: 'C6', observe: 'D5', waterPlant: 'A4', toggleLight: 'B4', talkToPlant: 'C4', fertilizePlant: 'D4', applyPesticide: 'E3', cleanLeaves: 'F4', playMusic: 'G4', prunePlant: 'A3', repotPlant: 'G3', checkEnvironment: 'E4', harvestSeed: 'C5' };
 
-        // --- Mise à jour UI ---
-        function renderGardenView() { // (Révisé pour Pot et Animation Delay)
-             gardenView.innerHTML = ''; const plantCount = Object.keys(localState.plants).length;
-             if (!plantCount) { gardenView.innerHTML = '<p style="text-align:center; color: var(--subtle-text-color); margin-top: 20px;">Aucune plante. Créez-en une !</p>'; return; }
-             const sortedPlantIds = Object.keys(localState.plants).sort((a,b)=>(localState.plants[a]?.timeBorn||0)-(localState.plants[b]?.timeBorn||0)); 
-             sortedPlantIds.forEach(plantId => {
-                 const plant = localState.plants[plantId]; if (!plant) return;
-                 
-                 const plantDiv = document.createElement('div'); 
-                 plantDiv.className = 'garden-plant'; 
-                 plantDiv.dataset.plantId = plantId;
-                 // Définir la variable CSS pour la couleur du pot
-                 plantDiv.style.setProperty('--pot-color', plant.potColor || '#A1887F'); 
-                 
-                 const iconWrapper = document.createElement('div'); 
-                 iconWrapper.className = 'garden-plant-icon-wrapper';
-                 
-                 const icon = document.createElement('i'); 
-                 const stageInfo = GROWTH_STAGES[plant.growthStage||'GRAINE'];
-                 
-                 let healthLevel = plant.health || 0;
-                 let pestLevel = plant.pestLevel || 0;
-                 let healthState = "healthy";
-                 if (healthLevel <= 0) healthState = "wilting";
-                 else if (healthLevel < 30) healthState = "danger";
-                 else if (healthLevel < 60) healthState = "warning";
 
-                 plantDiv.classList.toggle('status-low-health', healthState === 'warning');
-                 plantDiv.classList.toggle('status-danger-health', healthState === 'danger' || healthState === 'wilting');
-                 iconWrapper.classList.toggle('status-has-pests-glow', pestLevel > 40 && healthState !== 'wilting');
+        // --- Socket.IO Connection ---
+        console.log("Attempting to connect to server...");
+        const socket = io();
 
-                 icon.className = `garden-plant-icon fas ${stageInfo.i}`; 
-                 icon.style.color = plant.characteristics?.baseColor||'';
-                 icon.classList.toggle('music-playing', !!plant.isMusicPlaying);
-                 icon.classList.toggle('rare-trait-glow', !!plant.characteristics?.rareTrait); 
-                 
-                 // Appliquer un délai d'animation aléatoire
-                 const delay = Math.random() * 2; // Délai entre 0 et 2s
-                 icon.style.setProperty('--animation-delay', delay);
 
-                 iconWrapper.appendChild(icon); 
-                 plantDiv.appendChild(iconWrapper);
-                 
-                 const statusIconsDiv = document.createElement('div'); 
-                 statusIconsDiv.className = 'garden-plant-status-icons'; 
-                 if(healthState==='wilting'){statusIconsDiv.innerHTML+='<i class="fas fa-skull-crossbones status-wilted" title="Flétrie"></i>';}
-                 if(plant.waterLevel<30&&healthState!=='wilting'){statusIconsDiv.innerHTML+='<i class="fas fa-tint-slash status-water" title="Assoiffée"></i>';}
-                 if(plant.energyLevel<20&&healthState!=='wilting'){statusIconsDiv.innerHTML+='<i class="fas fa-battery-empty status-energy" title="Basse énergie"></i>';}
-                 if(pestLevel>40&&healthState!=='wilting'){statusIconsDiv.innerHTML+='<i class="fas fa-bug status-pests" title="Nuisibles"></i>';}
-                 if(healthLevel < 50 && healthState === 'warning') { statusIconsDiv.innerHTML += '<i class="fas fa-heart-broken status-health" title="Faible santé"></i>'; } 
-                 plantDiv.appendChild(statusIconsDiv);
+        // --- Utility Functions ---
+        // (Unchanged formatTime, toggleModal from previous version)
+        function formatTime(ts) { if (!ts) return ''; const timestampNumber = Number(ts); if (isNaN(timestampNumber)) return ''; try { return new Date(timestampNumber).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { console.error("Error formatting time:", e); return '??:??'; } }
+        function toggleModal(modalId, show) { const modal = document.getElementById(modalId); if (!modal) return; if (show) { modal.classList.add('visible'); const input = modal.querySelector('input[type="text"], input[type="number"]'); if(input) input.focus(); } else { modal.classList.remove('visible'); } }
 
-                 if (plant.characteristics?.rareTrait) { 
-                     const rareDiv = document.createElement('div'); rareDiv.className = 'garden-plant-rare'; rareDiv.title = plant.characteristics.rareTrait; rareDiv.innerHTML = '<i class="fas fa-star"></i>'; plantDiv.appendChild(rareDiv); 
+
+        // --- NEW: Optimized Plant Card Update Function ---
+        function updateSinglePlantCard(plantDiv, plantData, index) {
+             if (!plantDiv || !plantData) return;
+
+             const stageInfo = GROWTH_STAGES[plantData.growthStage || 'GRAINE'] || GROWTH_STAGES['GRAINE'];
+             const iconWrapper = plantDiv.querySelector('.garden-plant-icon-wrapper');
+             const icon = plantDiv.querySelector('.garden-plant-icon');
+             const statusIconsDiv = plantDiv.querySelector('.garden-plant-status-icons');
+             const nameSpan = plantDiv.querySelector('.garden-plant-name');
+             const rareDiv = plantDiv.querySelector('.garden-plant-rare'); // Get existing or null
+
+             if (!iconWrapper || !icon || !statusIconsDiv || !nameSpan) {
+                 console.error("Error updating card: Missing elements in", plantDiv);
+                 return; // Skip update if elements are missing
+             }
+
+            // Update Pot Color Variable (if different)
+            const currentPotColor = plantDiv.style.getPropertyValue('--pot-color');
+            const newPotColor = plantData.potColor || '#A1887F';
+            if (currentPotColor !== newPotColor) {
+                plantDiv.style.setProperty('--pot-color', newPotColor);
+            }
+
+            // --- Icon Visual Logic (Copied from renderGardenView, applied to existing elements) ---
+             icon.style.color = plantData.characteristics?.baseColor || '#4CAF50';
+             const requiredIconClass = `fas ${stageInfo.i}`;
+             // Update class only if necessary
+             if (!icon.classList.contains(stageInfo.i)) {
+                // Find previous FontAwesome class and remove it before adding new one
+                const currentFaClass = Array.from(icon.classList).find(cls => cls.startsWith('fa-') && cls !== 'fas');
+                if (currentFaClass) icon.classList.remove(currentFaClass);
+                icon.classList.add(stageInfo.i);
+             }
+             icon.classList.toggle('rare-trait-glow', !!plantData.characteristics?.rareTrait);
+
+             let filterStyle = '';
+             let scaleValue = 1.0;
+             let transformStyle = '';
+             let addIdleAnimation = false;
+
+             let growthProgress = plantData.growthProgress !== undefined ? plantData.growthProgress : 0;
+             let baseScale = 1.0;
+             switch (plantData.growthStage) { /* ... case statements ... */
+                 case 'GRAINE': baseScale = 0.6; break;
+                 case 'POUSSE': baseScale = 0.8; break;
+                 case 'JEUNE': baseScale = 1.0; break;
+                 case 'MATURE': baseScale = 1.15; break;
+                 case 'FLORAISON': baseScale = 1.25; break;
+             }
+             scaleValue = baseScale + (growthProgress / 100) * (baseScale * 0.15);
+
+             const plantHealth = plantData.health || 0;
+             if (plantHealth <= 0) { filterStyle = 'grayscale(80%) brightness(60%) sepia(30%)'; scaleValue *= 0.9; transformStyle = `rotate(15deg) scale(${scaleValue.toFixed(2)})`; addIdleAnimation = false; }
+             else { if (plantHealth < 30) filterStyle = `grayscale(50%) brightness(80%) saturate(70%)`; else if (plantHealth < 60) filterStyle = `grayscale(20%) brightness(90%) saturate(85%)`; addIdleAnimation = true; transformStyle = `scale(${scaleValue.toFixed(2)})`; }
+
+             icon.style.filter = filterStyle;
+             icon.style.transform = transformStyle;
+
+             if (addIdleAnimation) {
+                 const delay = (index * 0.1) % 2; // Use index passed from main loop
+                 icon.style.setProperty('--animation-delay', `${delay}s`);
+                 icon.classList.add('idle-animation');
+             } else {
+                 icon.classList.remove('idle-animation');
+             }
+            // --- End Icon Visual Logic ---
+
+             // Update Status Borders/Shadows
+             plantDiv.classList.toggle('status-low-health', plantHealth > 0 && plantHealth < 60);
+             plantDiv.classList.toggle('status-danger-health', plantHealth > 0 && plantHealth < 30);
+             // Update Pest glow
+             iconWrapper.classList.toggle('status-has-pests-glow', (plantData.pestLevel || 0) > 40 && plantHealth > 0);
+
+            // Update Status Icons (Rebuild innerHTML for simplicity here, could optimize further)
+            let statusIconsHTML = '';
+            if (plantHealth <= 0) { statusIconsHTML += '<i class="fas fa-skull-crossbones status-wilted" title="Flétrie"></i>'; }
+            if (plantData.waterLevel < 30 && plantHealth > 0) { statusIconsHTML += '<i class="fas fa-tint-slash status-water" title="Assoiffée"></i>'; }
+            if (plantData.energyLevel < 20 && plantHealth > 0) { statusIconsHTML += '<i class="fas fa-battery-empty status-energy" title="Basse énergie"></i>'; }
+            if ((plantData.pestLevel || 0) > 40 && plantHealth > 0) { statusIconsHTML += '<i class="fas fa-bug status-pests" title="Nuisibles"></i>'; }
+            if (plantHealth > 0 && plantHealth < 50) { statusIconsHTML += '<i class="fas fa-heart-broken status-health" title="Faible santé"></i>'; }
+            // Update only if content changed to avoid flicker
+             if (statusIconsDiv.innerHTML !== statusIconsHTML) {
+                statusIconsDiv.innerHTML = statusIconsHTML;
+             }
+
+
+            // Update Rare Trait indicator
+            const hasRareTrait = !!plantData.characteristics?.rareTrait;
+            if (hasRareTrait) {
+                 if (rareDiv) { // If element exists, update title
+                     rareDiv.title = plantData.characteristics.rareTrait;
+                 } else { // If element doesn't exist, create and append
+                     const newRareDiv = document.createElement('div'); newRareDiv.className = 'garden-plant-rare'; newRareDiv.title = plantData.characteristics.rareTrait; newRareDiv.innerHTML = '<i class="fas fa-star"></i>'; plantDiv.appendChild(newRareDiv);
                  }
-                 
-                 const nameSpan = document.createElement('span'); 
-                 nameSpan.className = 'garden-plant-name'; 
-                 nameSpan.textContent = plant.name||'?'; 
-                 plantDiv.appendChild(nameSpan);
+            } else if (rareDiv) { // If no rare trait but element exists, remove it
+                rareDiv.remove();
+            }
 
-                 let statusTitle = '';
-                 if(healthState==='wilting') statusTitle+='Flétrie! ';
-                 if(plant.waterLevel<30&&healthState!=='wilting') statusTitle+='Assoiffée. ';
-                 if(plant.energyLevel<20&&healthState!=='wilting') statusTitle+='Basse énergie. ';
-                 if(pestLevel>40&&healthState!=='wilting') statusTitle+='Nuisibles! ';
-                 if(healthLevel < 50 && healthState === 'warning') statusTitle += 'Santé faible. ';
-                 plantDiv.title = `${plant.name || '?'} - ${statusTitle || 'OK'}`; 
-                 nameSpan.title = plantDiv.title; 
 
-                 if (plantId === localState.selectedPlantId) plantDiv.classList.add('selected');
-                 plantDiv.addEventListener('click', () => { localState.selectedPlantId = plantId; document.querySelectorAll('.garden-plant.selected').forEach(el => el.classList.remove('selected')); plantDiv.classList.add('selected'); updateDetailView(); playSound(sounds.select, '16n', 0.4); });
-                 
-                 gardenView.appendChild(plantDiv);
+            // Update Plant Name (if changed)
+             if (nameSpan.textContent !== (plantData.name || '?')) {
+                nameSpan.textContent = plantData.name || '?';
+             }
+
+            // Update Tooltip (Title)
+            const newTitle = `${plantData.name || '?'} (${stageInfo.n}, Santé: ${Math.round(plantHealth)}%)`;
+             if (plantDiv.title !== newTitle) {
+                plantDiv.title = newTitle;
+                nameSpan.title = newTitle;
+             }
+        }
+
+
+        // --- UI Update Functions ---
+
+        // OPTIMIZED function renderGardenView (using updateSinglePlantCard)
+        function renderGardenView() {
+            // console.time("renderGardenViewOptimized"); // Perf check
+            const newPlantData = localState.plants;
+            const existingPlantElements = {}; // Map plantId to its DOM element
+            const plantsToRemove = [];
+            const currentPlantIds = new Set(); // Keep track of plants currently in DOM
+
+            // Populate existing elements map and ID set
+            gardenView.querySelectorAll('.garden-plant[data-plant-id]').forEach(el => {
+                 const id = el.dataset.plantId;
+                 if (id) {
+                    existingPlantElements[id] = el;
+                    currentPlantIds.add(id);
+                 }
+            });
+
+            const sortedNewPlantIds = Object.keys(newPlantData).sort((a,b)=>(newPlantData[a]?.timeBorn||0)-(newPlantData[b]?.timeBorn||0));
+
+            // Process new/updated plants
+            sortedNewPlantIds.forEach((plantId, index) => {
+                 const plantData = newPlantData[plantId];
+                 if (!plantData) return;
+
+                 const existingElement = existingPlantElements[plantId];
+
+                 if (existingElement) {
+                     // Plant exists, update its card using the helper function
+                     updateSinglePlantCard(existingElement, plantData, index);
+                     currentPlantIds.delete(plantId); // Mark as processed
+                 } else {
+                     // Plant is new, create its card (similar to original logic but creates single element)
+                     const plantDiv = document.createElement('div');
+                     plantDiv.className = 'garden-plant'; // Add initial classes
+                     plantDiv.dataset.plantId = plantId;
+                     plantDiv.style.setProperty('--pot-color', plantData.potColor || '#A1887F');
+                      plantDiv.style.setProperty('--card-delay', index); // For animation
+
+                      // Build inner structure (simplified example, expand as needed)
+                      plantDiv.innerHTML = `
+                          <div class="garden-plant-icon-wrapper">
+                             <i class="garden-plant-icon fas fa-question-circle"></i>
+                          </div>
+                          <div class="garden-plant-status-icons"></div>
+                          <span class="garden-plant-name"></span>
+                          `;
+
+                     // Call update function to populate details and apply visual logic
+                     updateSinglePlantCard(plantDiv, plantData, index);
+
+                     // Add click listener
+                      plantDiv.addEventListener('click', () => {
+                          if (localState.selectedPlantId !== plantId) {
+                               localState.selectedPlantId = plantId;
+                               const previousSelected = gardenView.querySelector('.garden-plant.selected');
+                               if (previousSelected) previousSelected.classList.remove('selected');
+                               plantDiv.classList.add('selected');
+                               updateDetailView(); // Update detail panel completely on selection change
+                               playSound(sounds.select, '16n', 0.4);
+                           }
+                      });
+
+                     // Append new plant to garden view
+                     gardenView.appendChild(plantDiv);
+                 }
+             });
+
+             // Remove plants that are no longer in the data
+             currentPlantIds.forEach(plantIdToRemove => {
+                  const elementToRemove = existingPlantElements[plantIdToRemove];
+                  if (elementToRemove) {
+                       // Optional: Add a fade-out animation before removing
+                       elementToRemove.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                       elementToRemove.style.opacity = '0';
+                       elementToRemove.style.transform = 'scale(0.9)';
+                       setTimeout(() => elementToRemove.remove(), 300);
+                  }
+             });
+
+            // Update selected style in case selection changed programmatically
+             const currentSelectedElement = gardenView.querySelector('.garden-plant.selected');
+             if (currentSelectedElement && currentSelectedElement.dataset.plantId !== localState.selectedPlantId) {
+                 currentSelectedElement.classList.remove('selected');
+             }
+             if (localState.selectedPlantId) {
+                  const newSelectedElement = gardenView.querySelector(`.garden-plant[data-plant-id="${localState.selectedPlantId}"]`);
+                  if (newSelectedElement && !newSelectedElement.classList.contains('selected')) {
+                      newSelectedElement.classList.add('selected');
+                  }
+             }
+
+            // console.timeEnd("renderGardenViewOptimized"); // Perf check end
+        }
+
+
+        // *** CORRECTED function updateDetailView (Only updates visuals/text, not buttons) ***
+        function updateDetailView() {
+            const plant = localState.plants[localState.selectedPlantId]; // Use 'plant' variable
+            observationFeedbackEl.textContent = ''; // Clear observation
+
+            if (!plant || !localState.isConnected) {
+                 detailPlaceholder.style.display = 'block'; // Show placeholder
+                 detailContent.classList.add('hidden'); // Hide content
+                 // Ensure buttons are disabled when no plant selected
+                 updateDetailButtonStates(); // Call this to ensure buttons are disabled
+                 return;
+             }
+
+            // --- Plant Selected - Update Detail View Content (excluding buttons) ---
+            detailPlaceholder.style.display = 'none';
+            detailContent.classList.remove('hidden');
+
+            detailPlantNameEl.textContent = plant.name || '?';
+            const stageInfo = GROWTH_STAGES[plant.growthStage || 'GRAINE'] || GROWTH_STAGES['GRAINE'];
+
+            // --- Detail Icon Visual Logic ---
+            const detailIcon = detailPlantIcon;
+            detailIcon.style.color = plant.characteristics?.baseColor || '#4CAF50';
+            // Update icon class only if necessary
+             const requiredIconClass = `fas ${stageInfo.i}`;
+             if (!detailIcon.classList.contains(stageInfo.i)) {
+                const currentFaClass = Array.from(detailIcon.classList).find(cls => cls.startsWith('fa-') && cls !== 'fas');
+                if (currentFaClass) detailIcon.classList.remove(currentFaClass);
+                detailIcon.classList.add(stageInfo.i);
+             }
+            detailIcon.classList.remove('action-pulse');
+
+            let filterStyle = '';
+            let scaleValue = 1.0;
+            let transformStyle = '';
+            let growthProgress = plant.growthProgress !== undefined ? plant.growthProgress : 0;
+            let baseScale = 1.0;
+            switch (plant.growthStage) { /* ... case statements ... */
+                case 'GRAINE': baseScale = 0.7; break; case 'POUSSE': baseScale = 0.9; break; case 'JEUNE': baseScale = 1.1; break; case 'MATURE': baseScale = 1.25; break; case 'FLORAISON': baseScale = 1.35; break;
+            }
+            scaleValue = baseScale + (growthProgress / 100) * (baseScale * 0.15);
+
+            const plantHealth = plant.health || 0; // Define plantHealth
+            if (plantHealth <= 0) { /* ... wilted logic ... */ filterStyle = 'grayscale(80%) brightness(60%) sepia(30%)'; scaleValue *= 0.9; transformStyle = `rotate(15deg) scale(${scaleValue.toFixed(2)})`; }
+            else { /* ... non-wilted logic ... */ if (plantHealth < 30) filterStyle = `grayscale(50%) brightness(80%) saturate(70%)`; else if (plantHealth < 60) filterStyle = `grayscale(20%) brightness(90%) saturate(85%)`; transformStyle = `scale(${scaleValue.toFixed(2)})`; }
+
+            detailIcon.style.filter = filterStyle;
+            detailIcon.style.transform = transformStyle;
+            // --- End Detail Icon Visual Logic ---
+
+            // Update Status Text
+             const dHealth = Math.round(plantHealth);
+             const dWater = Math.round(plant.waterLevel || 0);
+             const dEnergy = Math.round(plant.energyLevel || 0);
+             const dFert = Math.round(plant.fertilizerLevel || 0);
+             const dPest = Math.round(plant.pestLevel || 0);
+
+            let statusText = "Se porte bien.", healthClass = "healthy";
+             if (dHealth <= 0) { healthClass = "wilting"; statusText = "Flétrie ! 😭"; }
+             else if (dPest > 70) { healthClass = "pests"; statusText = "Infestée de nuisibles !"; }
+             else if (dWater < 15) { healthClass = "thirsty"; statusText = "Très assoiffée !"; }
+             else if (dEnergy < 15) { healthClass = "needs-light"; statusText = "Manque cruellement d'énergie..."; }
+             else if (dHealth < 30) { healthClass = "danger"; statusText = "Santé très faible !"; }
+             // Use 'plant' not 'ps' for environment check
+             else if (plant.environmentStatus !== 'Optimal' && plant.environmentStatus !== 'Infesté de nuisibles'){ healthClass = "warning"; statusText = `Environnement: ${plant.environmentStatus}`; }
+             else if (dPest > 40) { healthClass = "pests"; statusText = "Quelques nuisibles présents..."; }
+             else if (dWater < 30) { healthClass = "thirsty"; statusText = "Commence à avoir soif..."; }
+             else if (dEnergy < 30) { healthClass = "needs-light"; statusText = "Manque un peu d'énergie..."; }
+             else if (dHealth < 60) { healthClass = "warning"; statusText = "Santé un peu faible..."; }
+             else if (dFert < 10 && plant.growthStage !== 'GRAINE') { healthClass = "warning"; statusText = "Aurait besoin d'engrais."; }
+             else if (plant.isMusicPlaying) { healthClass = "happy"; statusText = "Apprécie la musique ! 🎶"; }
+             else if (dHealth > 85 && dWater > 70 && dEnergy > 70 && dPest < 10) { healthClass = "happy"; statusText = (plant.growthStage === 'FLORAISON') ? "Magnifiquement fleurie ! 🌸" : "En pleine forme ! ✨"; }
+             else { healthClass = "healthy"; statusText="Se porte bien.";}
+
+            detailPlantStatus.textContent = statusText;
+            detailPlantStatus.className = healthClass;
+
+            // Update Growth Stage/Pot Size text
+            detailGrowthStageEl.textContent = stageInfo.n;
+            detailPotSizeEl.textContent = `(Pot ${plant.potSize || '?'})`;
+
+            // Rare Trait
+             detailRareTraitEl.classList.toggle('hidden', !plant.characteristics?.rareTrait);
+             if (plant.characteristics?.rareTrait) {
+                 detailRareTraitEl.innerHTML = `<i class="fas fa-star"></i> ${plant.characteristics.rareTrait}`;
+             }
+
+            // Level Bars and Labels
+             detailHealthLevelBar.style.width=`${dHealth}%`; detailHealthLevelLabel.textContent=`Santé (${dHealth}%)`;
+             detailWaterLevelBar.style.width=`${dWater}%`; detailWaterLevelLabel.textContent=`Eau (${dWater}%)`;
+             detailEnergyLevelBar.style.width=`${dEnergy}%`; detailEnergyLevelLabel.textContent=`Énergie (${dEnergy}%)`;
+             detailFertilizerLevelBar.style.width=`${dFert}%`; detailFertilizerLevelLabel.textContent=`Engrais (${dFert}%)`;
+             detailPestLevelBar.style.width=`${dPest}%`; detailPestLevelLabel.textContent=`Nuisibles (${dPest}%)`;
+             // Adjust bar colors
+             detailWaterLevelBar.style.backgroundColor=(dWater<30)?'var(--warning-color)':'var(--water-color)';
+             detailEnergyLevelBar.style.backgroundColor=(dEnergy<30)?'var(--warning-color)':'var(--energy-color)';
+             detailFertilizerLevelBar.style.backgroundColor=(dFert<20 && plant.growthStage !== 'GRAINE')?'var(--warning-color)':'var(--fertilizer-color)';
+             detailPestLevelBar.style.backgroundColor=(dPest>60)?'var(--danger-color)':(dPest>30?'var(--warning-color)':'var(--pesticide-color)');
+
+
+             // Update Pot Color in Detail View
+             if(detailPotColorEl) detailPotColorEl.style.backgroundColor = plant.potColor || '#A1887F';
+
+             // *** Button state logic is now handled by updateDetailButtonStates ***
+             updateDetailButtonStates(); // Call the specific function to update buttons
+        }
+
+        // --- NEW: Function to ONLY update button states ---
+        function updateDetailButtonStates() {
+             const plant = localState.plants[localState.selectedPlantId];
+             const isConnected = localState.isConnected;
+
+             // If no plant selected or not connected, disable all detail buttons
+             if (!plant || !isConnected) {
+                 Object.values(detailActionButtons).forEach(btn => { if(btn) btn.disabled = true; });
+                 // Also handle global buttons here if needed when no plant selected but connected
+                 const now = Date.now();
+                 createPlantButton.disabled = !isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant) || Object.keys(localState.plants).length >= 50;
+                 waterAllButton.disabled = !isConnected || (now - localState.lastWaterAllTime < COOLDOWNS.waterAllPlants);
+                 shopButton.disabled = !isConnected;
+                 return;
+             }
+
+             // --- Plant Selected and Connected - Update Button States ---
+             const plantHealth = plant.health || 0;
+             const isWilted = plantHealth <= 0;
+             const now = Date.now();
+             const stageInfo = GROWTH_STAGES[plant.growthStage || 'GRAINE'] || GROWTH_STAGES['GRAINE'];
+             const stageAllowsPrune = stageInfo.p;
+             const stageAllowsRepot = stageInfo.r;
+             const dWater = Math.round(plant.waterLevel || 0);
+             const dFert = Math.round(plant.fertilizerLevel || 0);
+             const dPest = Math.round(plant.pestLevel || 0);
+
+
+             // Update each button state
+             if (detailActionButtons.waterPlant) detailActionButtons.waterPlant.disabled = isWilted || dWater >= 98;
+             if (detailActionButtons.toggleLight) detailActionButtons.toggleLight.disabled = isWilted;
+             if (detailActionButtons.talkToPlant) detailActionButtons.talkToPlant.disabled = isWilted || (now - (plant.lastTalkTime || 0)) < COOLDOWNS.talkToPlant;
+             if (detailActionButtons.fertilizePlant) detailActionButtons.fertilizePlant.disabled = isWilted || (now - (plant.lastFertilizeTime || 0)) < COOLDOWNS.fertilizePlant || dFert >= 95;
+             if (detailActionButtons.applyPesticide) detailActionButtons.applyPesticide.disabled = isWilted || (now - (plant.lastPesticideTime || 0)) < COOLDOWNS.applyPesticide || dPest < 5;
+             if (detailActionButtons.cleanLeaves) detailActionButtons.cleanLeaves.disabled = isWilted || (now - (plant.lastCleanTime || 0)) < COOLDOWNS.cleanLeaves;
+             if (detailActionButtons.playMusic) detailActionButtons.playMusic.disabled = isWilted || plant.isMusicPlaying || (now - (plant.lastPlayMusicTime || 0)) < COOLDOWNS.playMusic;
+             if (detailActionButtons.prunePlant) detailActionButtons.prunePlant.disabled = isWilted || !stageAllowsPrune || (now - (plant.lastPruneTime || 0)) < COOLDOWNS.prunePlant;
+             if (detailActionButtons.repotPlant) detailActionButtons.repotPlant.disabled = isWilted || !stageAllowsRepot || plant.potSize === 'Large' || (now - (plant.lastRepotTime || 0)) < COOLDOWNS.repotPlant;
+             if (detailActionButtons.checkEnvironment) detailActionButtons.checkEnvironment.disabled = isWilted || (now - (plant.lastCheckEnvTime || 0)) < COOLDOWNS.checkEnvironment;
+             if (detailActionButtons.observePlant) detailActionButtons.observePlant.disabled = isWilted || (now - (plant.lastObserveTime || 0)) < COOLDOWNS.observePlant;
+             if (detailActionButtons.harvestSeed) detailActionButtons.harvestSeed.disabled = isWilted || plant.growthStage !== 'FLORAISON' || (now - (plant.lastHarvestTime || 0)) < COOLDOWNS.harvestSeed;
+             if (detailActionButtons.gentleMist) detailActionButtons.gentleMist.disabled = isWilted || (now - (plant.lastMistTime || 0)) < COOLDOWNS.gentleMist;
+
+             // Update toggle light button icon and title (still needs plant data)
+             const lightButtonIcon = detailActionButtons.toggleLight?.querySelector('i');
+             if(lightButtonIcon) {
+                 lightButtonIcon.className = `fas ${plant.isLightOn ? 'fa-lightbulb-slash' : 'fa-lightbulb'}`;
+                 detailActionButtons.toggleLight.title = plant.isLightOn ? 'Éteindre Lumière' : 'Allumer Lumière';
+             }
+
+             // Update global buttons state (as they depend on time/connection too)
+             createPlantButton.disabled = !isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant) || Object.keys(localState.plants).length >= 50;
+             waterAllButton.disabled = !isConnected || (now - localState.lastWaterAllTime < COOLDOWNS.waterAllPlants);
+             shopButton.disabled = !isConnected;
+        }
+
+
+        function updateLeaderboardUI(scores) {
+             leaderboardList.innerHTML=''; // Clear previous list
+             if (!scores || scores.length === 0) {
+                 leaderboardList.innerHTML = '<li>Aucun score enregistré.</li>';
+                 return;
+             }
+             scores.forEach((entry, index) => {
+                 const li = document.createElement('li');
+                 li.innerHTML = `
+                     <span class="lb-rank">${index + 1}.</span>
+                     <span class="lb-name" title="${entry.username || 'Anonyme'}">${entry.username || 'Anonyme'}</span>
+                     <span class="lb-score">${entry.score || 0}</span>
+                 `;
+                 // Highlight current player if needed
+                 if(entry.userId === localState.userId) {
+                     li.style.fontWeight = 'bold';
+                     li.style.backgroundColor = 'var(--primary-light)';
+                 }
+                 leaderboardList.appendChild(li);
              });
          }
 
-        function updateDetailView() { // (inchangé)
-             const plant = localState.plants[localState.selectedPlantId]; observationFeedbackEl.textContent = '';
-             if (!plant || !localState.isConnected) { detailPlaceholder.style.display = 'block'; detailContent.classList.add('hidden'); Object.values(detailActionButtons).forEach(btn => btn.disabled = true); createPlantButton.disabled = !localState.isConnected || (Date.now() - localState.lastCreateTime < COOLDOWNS.createPlant); waterAllButton.disabled = true; return; }
-             detailPlaceholder.style.display = 'none'; detailContent.classList.remove('hidden');
-             detailPlantNameEl.textContent = plant.name || '?';
-             const dHealth=Math.max(0,Math.min(100,plant.health||0)); const dWater=Math.max(0,Math.min(100,plant.waterLevel||0)); const dEnergy=Math.max(0,Math.min(100,plant.energyLevel||0)); const dFert=Math.max(0,Math.min(100,plant.fertilizerLevel||0)); const dPest=Math.max(0,Math.min(100,plant.pestLevel||0));
-             let healthState="healthy", statusText="Se porte bien.", healthClass="healthy";
-             if(dHealth<=0){healthState="wilting";healthClass="wilting";statusText="Flétrie ! 😭";}else if(dPest>70){healthState="pests";healthClass="pests";statusText="Infestée !";}else if(dWater<30){healthState="thirsty";healthClass="thirsty";statusText="Assoiffée...";}else if(dEnergy<20){healthState="needs-light";healthClass="needs-light";statusText="Manque de lumière...";}else if(dHealth<50){healthState="warning";healthClass="healthy";statusText="Santé faible...";} else if(dFert<10&&plant.growthStage!=='GRAINE'){healthState="low-fertilizer";healthClass="healthy";statusText="Manque d'engrais...";}else if(dPest>40){healthState="pests";healthClass="pests";statusText="Nuisibles présents...";}else if(plant.environmentStatus!=='Optimal'&&plant.environmentStatus!=='Infesté de nuisibles'){healthState="env-issue";healthClass="healthy";statusText=`Env: ${plant.environmentStatus}`;}else if(dWater<50||dEnergy<50){statusText="Se maintient.";}else{healthState="happy";healthClass="happy";statusText="Super forme ! ✨";if(plant.growthStage==='FLORAISON')statusText="Fleurie ! 🌸";if(plant.isMusicPlaying)statusText+=" 🎶";}
-             const stageInfo = GROWTH_STAGES[plant.growthStage||'GRAINE']; detailPlantIcon.className = `fas ${stageInfo.i} ${healthState}`; detailPlantIcon.style.color = plant.characteristics?.baseColor||''; detailPlantIcon.classList.toggle('music-playing', !!plant.isMusicPlaying);
-             detailPlantStatus.textContent = statusText; detailPlantStatus.className = healthClass; detailGrowthStageEl.textContent = stageInfo.n; detailPotSizeEl.textContent = `(Pot ${plant.potSize||'?'})`;
-             if(plant.characteristics?.rareTrait){detailRareTraitEl.innerHTML=`<i class="fas fa-star"></i> ${plant.characteristics.rareTrait}`;detailRareTraitEl.classList.remove('hidden');}else{detailRareTraitEl.classList.add('hidden');}
-             const hp=Math.round(dHealth); const wp=Math.round(dWater);const ep=Math.round(dEnergy);const fp=Math.round(dFert);const pp=Math.round(dPest);
-             
-             detailHealthLevelBar.style.width=`${hp}%`;detailHealthLevelLabel.textContent=`Santé (${hp}%)`; 
-             detailHealthLevelBar.style.backgroundImage = `linear-gradient(to right, var(--health-color-low) 0%, var(--health-color-mid) 50%, var(--health-color-high) 100%)`; 
-             detailHealthLevelBar.style.backgroundColor = 'transparent'; 
+         function updateLogUI(logs) {
+             if (!Array.isArray(logs)) { logs = []; }
+             logList.innerHTML = ''; // Clear previous logs
+             const logsToShow = logs.slice(0, MAX_LOG_ENTRIES); // Show most recent MAX_LOG_ENTRIES
 
-             detailWaterLevelBar.style.width=`${wp}%`;detailWaterLevelLabel.textContent=`Eau (${wp}%)`; 
-             detailWaterLevelBar.style.backgroundColor=(dWater<30)?'var(--warning-color)':'var(--water-color)';
-             if(healthState==='wilting') detailWaterLevelBar.style.backgroundColor='var(--danger-color)'; 
+             logsToShow.forEach((logData) => {
+                 const li = document.createElement('li');
+                 // Sanitize user input slightly (basic prevention)
+                 const userText = (logData.user || 'Système').replace(/</g, "&lt;");
+                 const actionText = (logData.action || '').replace(/</g, "&lt;");
 
-             detailEnergyLevelBar.style.width=`${ep}%`;detailEnergyLevelLabel.textContent=`Énergie (${ep}%)`; 
-             detailEnergyLevelBar.style.backgroundColor=(dEnergy<30)?'var(--warning-color)':'var(--energy-color)'; 
-             
-             detailFertilizerLevelBar.style.width=`${fp}%`;detailFertilizerLevelLabel.textContent=`Engrais (${fp}%)`; 
-             detailFertilizerLevelBar.style.backgroundColor=(dFert<20)?'var(--warning-color)':'var(--fertilizer-color)'; 
-             
-             detailPestLevelBar.style.width=`${pp}%`;detailPestLevelLabel.textContent=`Nuisibles (${pp}%)`; 
-             detailPestLevelBar.style.backgroundColor=(dPest>60)?'var(--danger-color)':(dPest>30?'var(--warning-color)':'var(--pesticide-color)');
+                 li.innerHTML = `
+                     <span class="log-message"><span class="log-user">${userText}</span> ${actionText}.</span>
+                     <span class="log-time">${formatTime(logData.timestamp)}</span>
+                 `;
+                 logList.appendChild(li); // Add to the end (will appear at top due to flex styling or scroll)
+             });
 
-             const lbi = detailActionButtons.toggleLight.querySelector('i'); 
-             lbi.className = `fas ${plant.isLightOn?'fa-moon':'fa-sun'}`; 
-             
-             const isWilted = healthState === "wilting"; const now = Date.now(); const stageInfoDet = GROWTH_STAGES[plant.growthStage||'GRAINE'];
-             detailActionButtons.waterPlant.disabled=isWilted||!localState.isConnected; detailActionButtons.toggleLight.disabled=isWilted||!localState.isConnected; detailActionButtons.talkToPlant.disabled=isWilted||!localState.isConnected||(now-(plant.lastTalkTime||0))<COOLDOWNS.talkToPlant; detailActionButtons.fertilizePlant.disabled=isWilted||!localState.isConnected||(now-(plant.lastFertilizeTime||0))<COOLDOWNS.fertilizePlant; detailActionButtons.applyPesticide.disabled=isWilted||!localState.isConnected||(now-(plant.lastPesticideTime||0))<COOLDOWNS.applyPesticide||dPest<10; detailActionButtons.cleanLeaves.disabled=isWilted||!localState.isConnected||(now-(plant.lastCleanTime||0))<COOLDOWNS.cleanLeaves; detailActionButtons.playMusic.disabled=isWilted||!localState.isConnected||plant.isMusicPlaying||(now-(plant.lastPlayMusicTime||0))<COOLDOWNS.playMusic; detailActionButtons.prunePlant.disabled=isWilted||!localState.isConnected||!stageInfoDet.p||(now-(plant.lastPruneTime||0))<COOLDOWNS.prunePlant; detailActionButtons.repotPlant.disabled=isWilted||!localState.isConnected||!stageInfoDet.r||plant.potSize==='Large'||(now-(plant.lastRepotTime||0))<COOLDOWNS.repotPlant; detailActionButtons.checkEnvironment.disabled=!localState.isConnected||(now-(plant.lastCheckEnvTime||0))<COOLDOWNS.checkEnvironment; detailActionButtons.observePlant.disabled=isWilted||!localState.isConnected||(now-(plant.lastObserveTime||0))<COOLDOWNS.observePlant; detailActionButtons.harvestSeed.disabled=isWilted||!localState.isConnected||plant.growthStage!=='FLORAISON'||(now-(plant.lastHarvestTime||0))<COOLDOWNS.harvestSeed; detailActionButtons.gentleMist.disabled=isWilted||!localState.isConnected||(now-(plant.lastMistTime||0))<COOLDOWNS.gentleMist;
-             createPlantButton.disabled = !localState.isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant);
-             waterAllButton.disabled = !localState.isConnected || (now - localState.lastWaterAllTime < COOLDOWNS.waterAllPlants);
-             if(detailPotColorEl) detailPotColorEl.style.backgroundColor = plant.potColor || '#A1887F';
+             // Ensure the latest log is visible
+             logList.scrollTop = 0; // Scroll to top if new items added at beginning (unshift)
+             // If using appendChild, use: logList.scrollTop = logList.scrollHeight;
+
+             // Trigger fade-in animation for new entries
+             Array.from(logList.children).forEach(li => {
+                // Simple way: re-trigger animation on all visible logs
+                li.style.animation = 'none';
+                li.offsetHeight; // Trigger reflow
+                li.style.animation = '';
+             });
          }
 
-        function updateLeaderboardUI(scores) { // (inchangé)
-            leaderboardList.innerHTML='';if(!scores||scores.length===0){leaderboardList.innerHTML='<li>Aucun score.</li>';return;} 
-            scores.forEach((entry,index)=>{const li=document.createElement('li');const rS=document.createElement('span');rS.className='lb-rank';rS.textContent=`${index+1}.`;const nS=document.createElement('span');nS.className='lb-name';nS.textContent=entry.username||'Anonyme';nS.title=entry.username||'Anonyme';const sS=document.createElement('span');sS.className='lb-score';sS.textContent=entry.score||0;li.appendChild(rS);li.appendChild(nS);li.appendChild(sS);leaderboardList.appendChild(li);});
-        }
-        function updateLogUI(logs) { // (inchangé)
-            if(!Array.isArray(logs)){logs=[]} 
-            logList.innerHTML='';
-            const logsToShow=logs.slice(-MAX_LOG_ENTRIES); 
-            logsToShow.forEach((ld)=>{
-                const li=document.createElement('li');
-                const ms=document.createElement('span');ms.className='log-message';
-                const us=document.createElement('span');us.className='log-user';us.textContent=ld.user||'Anonyme';
-                const at=document.createTextNode(` ${ld.action||''}. `);
-                ms.appendChild(us);ms.appendChild(at);
-                const ts=document.createElement('span');ts.className='log-time';ts.textContent=formatTime(ld.timestamp);
-                li.appendChild(ms);li.appendChild(ts);
-                logList.appendChild(li) 
-            }); 
-            logList.scrollTop = logList.scrollHeight;
-            Array.from(logList.children).forEach(li=>{li.style.animation='none';li.offsetHeight;li.style.animation='';}); 
-        }
-        function updatePlayerInfoUI(playerData) { // (inchangé)
-            if(playerData){playerScoreEl.textContent=playerData.score||0;playerCoinsEl.textContent=playerData.coins||0;localState.playerCoins = playerData.coins || 0; shopCoinsEl.textContent = localState.playerCoins;}
-        }
-        function updateQuestUI(questData) { // (inchangé)
-             localState.currentQuest = questData; if (questData && !questData.completed) { questDescriptionEl.textContent = questData.description || "..."; questProgressEl.textContent = `(${questData.progress || 0}/${questData.target || '?'})`; questDisplayEl.classList.remove('completed'); questDisplayEl.title = ''; } else if (questData && questData.completed) { questDescriptionEl.textContent = `Terminé: ${questData.description}`; questProgressEl.textContent = `(${questData.target}/${questData.target})`; questDisplayEl.classList.add('completed'); questDisplayEl.title = 'Complétée !'; } else { questDescriptionEl.textContent = "Aucune quête."; questProgressEl.textContent = ""; questDisplayEl.classList.remove('completed'); questDisplayEl.title = ''; } 
-        }
-        function updateEventBanner(eventData) { // (inchangé)
-            if (eventData && eventData.name && eventData.endTime > Date.now()) { eventBannerEl.innerHTML = `<i class="fas fa-star"></i> Événement : ${eventData.name} (${eventData.description || ''})`; eventBannerEl.classList.add('visible'); } else { eventBannerEl.classList.remove('visible'); } 
-        }
-
-        // --- Shop UI (inchangé) ---
-         function renderShopUI(items) { shopItemList.innerHTML = ''; shopCoinsEl.textContent = localState.playerCoins; if (!items || Object.keys(items).length === 0) { shopItemList.innerHTML = '<li>Boutique vide.</li>'; return; } for (const itemId in items) { const item = items[itemId]; const li = document.createElement('li'); const infoDiv = document.createElement('div'); infoDiv.className = 'item-info'; const nameSpan = document.createElement('span'); nameSpan.className = 'item-name'; nameSpan.textContent = item.name; const descSpan = document.createElement('span'); descSpan.className = 'item-desc'; descSpan.textContent = item.description || ''; infoDiv.appendChild(nameSpan); infoDiv.appendChild(descSpan); const priceSpan = document.createElement('span'); priceSpan.className = 'item-price'; priceSpan.innerHTML = `${item.price} <i class="fas fa-coins"></i>`; const buyButton = document.createElement('button'); buyButton.className = 'buy-button'; buyButton.textContent = 'Acheter'; buyButton.dataset.itemId = itemId; buyButton.disabled = localState.playerCoins < item.price; buyButton.addEventListener('click', () => { if (!localState.isConnected) return; const targetPlantId = (item.type === 'cosmetic' || item.type === 'consumable' || item.type === 'boost') ? localState.selectedPlantId : null; if ((item.type === 'cosmetic' || item.type === 'consumable' || item.type === 'boost') && !targetPlantId) { alert("Sélectionnez une plante pour cet objet."); return; } console.log(`Emit: buyItem ${itemId} for plant ${targetPlantId}`); socket.emit('buyItem', { itemId: itemId, plantId: targetPlantId }); playSound(sounds.buy, '16n'); }); li.appendChild(infoDiv); li.appendChild(priceSpan); li.appendChild(buyButton); shopItemList.appendChild(li); } }
-
-        // --- Gestion Événements Socket.IO (inchangé) ---
-         socket.on('connect', ()=>{console.log('Connecté!',socket.id);localState.isConnected=true;connectionStatusEl.textContent='Connecté';connectionStatusEl.className='connected';const savedUsername=localStorage.getItem('plantMultiplayerUsername');if(savedUsername){console.log(`Emit: setUsername ${savedUsername}`);socket.emit('setUsername',savedUsername);}});
-         socket.on('disconnect', ()=>{console.log('Déconnecté.');localState.isConnected=false;connectionStatusEl.textContent='Déconnecté';connectionStatusEl.className='disconnected';renderGardenView();updateDetailView();updateQuestUI(null);updateEventBanner(null);});
-         socket.on('connect_error', (err)=>{console.error('Erreur Conn.:',err);localState.isConnected=false;connectionStatusEl.textContent='Erreur Conn.';connectionStatusEl.className='disconnected';renderGardenView();updateDetailView();updateQuestUI(null);updateEventBanner(null);});
-         socket.on('plantsUpdate', (plantsData) => {
-             const previousSelectedId = localState.selectedPlantId;
-             localState.plants = plantsData || {}; 
-             renderGardenView(); 
-             const currentPlantIds = Object.keys(localState.plants);
-             if (localState.plants[previousSelectedId]) {
-                 localState.selectedPlantId = previousSelectedId;
-             } else if (currentPlantIds.length > 0) {
-                 const sortedPlantIds = currentPlantIds.sort((a, b) => (localState.plants[a]?.timeBorn || 0) - (localState.plants[b]?.timeBorn || 0));
-                 localState.selectedPlantId = sortedPlantIds[0];
-             } else {
-                 localState.selectedPlantId = null;
+        function updatePlayerInfoUI(playerData) {
+             if (playerData) {
+                 playerScoreEl.textContent = playerData.score !== undefined ? playerData.score : 0;
+                 playerCoinsEl.textContent = playerData.coins !== undefined ? playerData.coins : 0;
+                 // Update local state cache
+                 localState.playerCoins = playerData.coins || 0;
+                 // Update coins display in the shop modal if it's open
+                 shopCoinsEl.textContent = localState.playerCoins;
+                 // Re-render shop to update button disabled states based on coins
+                 if (shopModal.classList.contains('visible')) {
+                    renderShopUI(localState.shopItems);
+                 }
              }
-             updateDetailView();
+         }
+
+        function updateQuestUI(questData) {
+             localState.currentQuest = questData; // Update local cache
+             if (questData && !questData.completed) {
+                 questDescriptionEl.textContent = questData.description || "...";
+                 questProgressEl.textContent = `(${questData.progress || 0}/${questData.target || '?'})`;
+                 questDisplayEl.classList.remove('completed');
+                 questDisplayEl.title = questData.description || '';
+                 // Play sound on progress? Maybe too noisy.
+                 // if (questData.progress > 0) playSound(sounds.questUpdate, '16n', 0.3);
+             } else if (questData && questData.completed) {
+                 questDescriptionEl.textContent = `Terminé: ${questData.description}`;
+                 questProgressEl.textContent = `(${questData.target}/${questData.target})`;
+                 questDisplayEl.classList.add('completed');
+                 questDisplayEl.title = 'Quête complétée ! En attente de la prochaine...';
+                 // Sound played via actionFeedback for completion
+             } else {
+                 questDescriptionEl.textContent = "Aucune quête active.";
+                 questProgressEl.textContent = "";
+                 questDisplayEl.classList.remove('completed');
+                 questDisplayEl.title = '';
+             }
+         }
+
+        function updateEventBanner(eventData) {
+            localState.currentEvent = eventData; // Cache current event data
+            if (eventData && eventData.name && eventData.endTime > Date.now()) {
+                 const timeLeftMs = eventData.endTime - Date.now();
+                 const minutesLeft = Math.floor(timeLeftMs / 60000);
+                 const secondsLeft = Math.floor((timeLeftMs % 60000) / 1000);
+                 const timeLeftStr = `${minutesLeft}m ${secondsLeft}s`;
+                 eventBannerEl.innerHTML = `<i class="fas fa-star"></i> Événement : ${eventData.name} (${eventData.description || ''}) - Temps restant: ${timeLeftStr}`;
+                 eventBannerEl.classList.add('visible');
+             } else {
+                 eventBannerEl.classList.remove('visible');
+                  if (localState.currentEvent) localState.currentEvent = null; // Clear cache if ended
+             }
+         }
+
+        // --- Shop UI ---
+         function renderShopUI(items) {
+             shopItemList.innerHTML = ''; // Clear list
+             shopCoinsEl.textContent = localState.playerCoins; // Update coins display
+
+             if (!items || Object.keys(items).length === 0) {
+                 shopItemList.innerHTML = '<li>La boutique est actuellement vide.</li>';
+                 return;
+             }
+
+             for (const itemId in items) {
+                 const item = items[itemId];
+                 const li = document.createElement('li');
+
+                 li.innerHTML = `
+                     <div class="item-info">
+                         <span class="item-name">${item.name || 'Objet Inconnu'}</span>
+                         <span class="item-desc">${item.description || ''}</span>
+                     </div>
+                     <span class="item-price">${item.price} <i class="fas fa-coins"></i></span>
+                     <button class="buy-button" data-item-id="${itemId}" ${localState.playerCoins < item.price ? 'disabled' : ''}>
+                         Acheter
+                     </button>
+                 `;
+
+                 const buyButton = li.querySelector('.buy-button');
+                 buyButton.addEventListener('click', () => {
+                     if (!localState.isConnected) return;
+
+                     const needsTarget = (item.type === 'cosmetic' || item.type === 'consumable' || item.type === 'boost');
+                     const targetPlantId = needsTarget ? localState.selectedPlantId : null;
+
+                     if (needsTarget && !targetPlantId) {
+                         alert("Veuillez sélectionner une plante dans le jardin avant d'acheter cet objet.");
+                         playSound(sounds.error);
+                         return;
+                     }
+                      if (localState.playerCoins < item.price) {
+                          alert("Pièces insuffisantes !");
+                           playSound(sounds.error);
+                          return;
+                      }
+
+                     console.log(`Client Emit: buyItem - Item: ${itemId}, Target Plant: ${targetPlantId}`);
+                     socket.emit('buyItem', { itemId: itemId, plantId: targetPlantId });
+                     // Play sound optimistically
+                     playSound(sounds.buy, '16n');
+                     // Optionally disable button briefly after click to prevent double buys
+                     buyButton.disabled = true;
+                     setTimeout(() => {
+                         // Re-enable based on actual coin count after potential update
+                          if(buyButton) buyButton.disabled = localState.playerCoins < item.price;
+                     }, 1000); // Re-check after 1 second
+                 });
+
+                 shopItemList.appendChild(li);
+             }
+         }
+
+        // --- Socket.IO Event Listeners ---
+        socket.on('connect', () => {
+             console.log('Connecté au serveur ! Socket ID:', socket.id);
+             localState.isConnected = true;
+             connectionStatusEl.textContent = 'Connecté';
+             connectionStatusEl.className = 'connected';
+             const savedUsername = localStorage.getItem('plantMultiplayerUsername');
+             if (savedUsername) { socket.emit('setUsername', savedUsername); localState.username = savedUsername; usernameInput.value = savedUsername; }
+             shopButton.disabled = false;
+             updateDetailButtonStates(); // Update button states now that we are connected
          });
-         socket.on('logsUpdate', (logs) => { updateLogUI(logs); });
-         socket.on('leaderboardUpdate', (scores) => { updateLeaderboardUI(scores); });
-         socket.on('userId', (id) => { localState.userId=id; console.log("UserID:",id); });
-         socket.on('usernameUpdate', (username) => { console.log(`Nom: ${username}`);localState.username=username;usernameInput.value=username;localStorage.setItem('plantMultiplayerUsername',username); });
-         socket.on('actionFeedback', (data)=>{console.log("Feedback:",data.message); if(data.message) { /* TODO: Display feedback nicely */ } if (!data.success && data.action === 'createPlant') { localState.lastCreateTime = 0; createPlantButton.disabled = !localState.isConnected; } if(data.sound && sounds[data.sound]) playSound(sounds[data.sound], '16n'); });
-         socket.on('plantObservation', (data) => { console.log("Observation:", data); if (data.plantId === localState.selectedPlantId) { observationFeedbackEl.textContent = data.text || "?"; setTimeout(() => { if(observationFeedbackEl.textContent === data.text) { observationFeedbackEl.textContent = ''; } }, 10000); } });
-         socket.on('questUpdate', (questData) => { console.log("Quest update:", questData); updateQuestUI(questData); if(questData?.completed) playSound(sounds.quest, '8n'); });
-         socket.on('playerInfoUpdate', (playerData) => { console.log("Player info update:", playerData); updatePlayerInfoUI(playerData); renderShopUI(localState.shopItems); }); 
-         socket.on('eventUpdate', (eventData) => { console.log("Event update:", eventData); updateEventBanner(eventData); });
-         socket.on('shopItemsUpdate', (items) => { console.log("Shop items received:", items); localState.shopItems = items || {}; renderShopUI(localState.shopItems); });
 
-        // --- Actions Client (inchangé) ---
-         function emitAction(actionName) { if(!localState.isConnected||!localState.selectedPlantId){console.warn("Action impossible");return;} console.log(`Emit: ${actionName} pour ${localState.selectedPlantId}`); socket.emit(actionName, { plantId: localState.selectedPlantId }); const button=detailActionButtons[actionName]; if(button){button.style.animation='buttonPulse .5s ease-out';setTimeout(()=>button.style.animation='',500);} const animClass={waterPlant:'growing',talkToPlant:'talking',fertilizePlant:'fertilized',applyPesticide:'pesticide-applied',cleanLeaves:'cleaned',prunePlant:'pruned',repotPlant:'repotted',gentleMist:'cleaned'}[actionName]; if(animClass){detailPlantIcon.classList.add(animClass);setTimeout(()=>{detailPlantIcon.classList.remove(animClass);},800);} playSound(sounds[actionName] || sounds.click, '16n', 0.4); } 
+         socket.on('disconnect', (reason) => {
+             console.log('Déconnecté du serveur. Raison:', reason);
+             localState.isConnected = false;
+             localState.selectedPlantId = null;
+             connectionStatusEl.textContent = 'Déconnecté';
+             connectionStatusEl.className = 'disconnected';
+             // Update UI for disconnected state
+             renderGardenView(); updateDetailView(); updateQuestUI(null); updateEventBanner(null);
+             leaderboardList.innerHTML = '<li>Déconnecté</li>'; logList.innerHTML = '<li>Déconnecté du serveur...</li>';
+             playerScoreEl.textContent = '---'; playerCoinsEl.textContent = '---';
+             updateDetailButtonStates(); // Ensure buttons are disabled
+         });
 
-        // --- Écouteurs UI (inchangé) ---
-         usernameInput.addEventListener('change', ()=>{const n=usernameInput.value.trim();if(n&&n!==localState.username&&localState.isConnected){console.log(`Emit: setUsername ${n}`);socket.emit('setUsername',n);localState.username=n;localStorage.setItem('plantMultiplayerUsername',n);}else if(!n){usernameInput.value=localState.username;}});
-         createPlantButton.addEventListener('click', ()=>{if(!localState.isConnected)return;const now=Date.now();if(now-localState.lastCreateTime<COOLDOWNS.createPlant){alert("Cooldown création.");return;}toggleModal('create-plant-modal', true);newPlantNameInput.value = `Plante de ${localState.username}`; newPlantNameInput.focus(); newPlantNameInput.select();});
-         confirmCreateButton.addEventListener('click', () => { const plantName = newPlantNameInput.value.trim(); if (!plantName) { alert("Entrez un nom."); return; } if (!localState.isConnected) return; const now = Date.now(); if (now - localState.lastCreateTime < COOLDOWNS.createPlant) { alert("Cooldown création."); toggleModal('create-plant-modal', false); return; } console.log("Emit: createPlant"); socket.emit('createPlant', { plantName: plantName }); localState.lastCreateTime = now; createPlantButton.disabled = true; toggleModal('create-plant-modal', false); playSound(sounds.create, '8n'); });
-         cancelCreateButton.addEventListener('click', () => { toggleModal('create-plant-modal', false); });
-         createPlantModal.addEventListener('click', (e) => { if (e.target === createPlantModal) toggleModal('create-plant-modal', false); });
-         shopButton.addEventListener('click', () => { renderShopUI(localState.shopItems); toggleModal('shop-modal', true); playSound(sounds.click, '16n', 0.5); });
-         shopModal.addEventListener('click', (e) => { if (e.target === shopModal) toggleModal('shop-modal', false); });
-         waterAllButton.addEventListener('click', () => { if (!localState.isConnected) return; const now = Date.now(); if (now - localState.lastWaterAllTime < COOLDOWNS.waterAllPlants) { alert("Cooldown 'Tout Arroser'."); return; } console.log("Emit: waterAllPlants"); socket.emit('waterAllPlants'); localState.lastWaterAllTime = now; waterAllButton.disabled = true; playSound(sounds.water, '4n', 0.5); });
-         for (const actionName in detailActionButtons) { if (detailActionButtons[actionName]) { detailActionButtons[actionName].addEventListener('click', () => emitAction(actionName)); } }
+         socket.on('connect_error', (err) => {
+             console.error('Erreur de connexion:', err.message);
+             localState.isConnected = false;
+             connectionStatusEl.textContent = 'Erreur Conn.';
+             connectionStatusEl.className = 'disconnected';
+             // Update UI for error state (similar to disconnect)
+              renderGardenView(); updateDetailView(); updateQuestUI(null); updateEventBanner(null);
+              leaderboardList.innerHTML = '<li>Erreur connexion</li>'; logList.innerHTML = '<li>Erreur de connexion au serveur...</li>';
+              updateDetailButtonStates();
+         });
 
-        // --- Init (inchangé) ---
-         function initializeApp() { const savedUsername = localStorage.getItem('plantMultiplayerUsername'); if (savedUsername) { localState.username = savedUsername; usernameInput.value = savedUsername; } renderGardenView(); updateDetailView(); updateLeaderboardUI([]); updateQuestUI(null); updatePlayerInfoUI(null); updateEventBanner(null); console.log("App initialisée v7.3 (Plantes Wow)..."); }
-         document.addEventListener('DOMContentLoaded', () => { initializeApp(); initAudio(); });
-         document.body.addEventListener('click', initAudio, { once: true }); // Ensure audio context starts
+        socket.on('plantsUpdate', (plantsData) => {
+             const previousPlantMap = { ...localState.plants }; // Shallow copy for comparison
+             localState.plants = plantsData || {};
+             let selectedPlantDataChanged = false;
+
+             // Check if selected plant data changed
+              if (localState.selectedPlantId) {
+                 const oldData = JSON.stringify(previousPlantMap[localState.selectedPlantId]);
+                 const newData = JSON.stringify(localState.plants[localState.selectedPlantId]);
+                 if (oldData !== newData) {
+                      selectedPlantDataChanged = true;
+                 }
+             }
+             // Maintain selection if plant still exists
+             if (localState.selectedPlantId && !localState.plants[localState.selectedPlantId]) {
+                 localState.selectedPlantId = null; // Deselect if gone
+                 selectedPlantDataChanged = true; // Force detail update to show placeholder
+             }
+             // Auto-select first plant if none selected
+              const plantIds = Object.keys(localState.plants);
+              if (!localState.selectedPlantId && plantIds.length > 0) {
+                  const sortedIds = plantIds.sort((a, b) => (localState.plants[a]?.timeBorn || 0) - (localState.plants[b]?.timeBorn || 0));
+                  localState.selectedPlantId = sortedIds[0];
+                  selectedPlantDataChanged = true; // Force detail update for new selection
+              }
+
+             renderGardenView(); // Use optimized render
+
+             // Update detail view only if selection changed or selected plant's data changed
+             if (selectedPlantDataChanged) {
+                 updateDetailView();
+             } else {
+                  // Even if plant data didn't change overall, buttons might need state update
+                  updateDetailButtonStates();
+             }
+         });
+
+        socket.on('logsUpdate', updateLogUI);
+        socket.on('leaderboardUpdate', updateLeaderboardUI);
+        socket.on('userId', (id) => { if (!localState.userId) { localState.userId = id; console.log("UserID reçu:", id); } });
+        socket.on('usernameUpdate', (username) => { console.log(`Nom MAJ: ${username}`); localState.username = username; usernameInput.value = username; localStorage.setItem('plantMultiplayerUsername', username); });
+        socket.on('actionFeedback', (data) => { console.log("Feedback Serveur:", data.message, `(Success: ${data.success}, Sound: ${data.sound})`); if (data.sound && sounds[data.sound]) { playSound(sounds[data.sound], '16n', data.success ? 0.4 : 0.3); } else if (!data.success) { playSound(sounds.error, '8n', 0.3); } /* Handle cooldown reset? */ });
+        socket.on('plantObservation', (data) => { if (data.plantId === localState.selectedPlantId) { observationFeedbackEl.textContent = data.text || "?"; setTimeout(() => { if (observationFeedbackEl.textContent === data.text) { observationFeedbackEl.textContent = ''; } }, 10000); } });
+        socket.on('questUpdate', updateQuestUI);
+        socket.on('playerInfoUpdate', updatePlayerInfoUI);
+        socket.on('eventUpdate', (eventData) => { updateEventBanner(eventData); updateDetailButtonStates(); /* Refresh buttons as event might change logic */ });
+        socket.on('shopItemsUpdate', (items) => { localState.shopItems = items || {}; if (shopModal.classList.contains('visible')) { renderShopUI(localState.shopItems); } });
+
+        // --- Client Actions ---
+        function emitAction(actionName) {
+            if (!localState.isConnected || !localState.selectedPlantId) { console.warn(`Action ${actionName} impossible.`); playSound(sounds.error); return; }
+            const plant = localState.plants[localState.selectedPlantId];
+            const button = detailActionButtons[actionName];
+            if(!plant || !button) return;
+             if (plant.health <= 0) { alert("Cette plante est flétrie."); playSound(sounds.error); return; }
+             if(button.disabled) { alert("Action impossible (cooldown ou condition non remplie)."); playSound(sounds.error); return; }
+
+            console.log(`Client Emit: ${actionName} pour PlantID ${localState.selectedPlantId}`);
+            socket.emit(actionName, { plantId: localState.selectedPlantId });
+
+            // Visual Feedback
+            if (button) { button.style.animation = 'buttonPulse .5s ease-out'; setTimeout(() => { if (button) button.style.animation = ''; }, 500); }
+            detailPlantIcon.classList.remove('action-pulse'); void detailPlantIcon.offsetWidth; detailPlantIcon.classList.add('action-pulse');
+            playSound(sounds[actionName] || sounds.click, '16n', 0.4);
+
+             // Optimistic button disabling based on cooldown
+             const cooldown = COOLDOWNS[actionName];
+             if(button && cooldown > 0) {
+                  button.disabled = true;
+                  // Let the setInterval handle re-enabling based on time
+             }
+        }
+
+        // --- UI Event Listeners ---
+        usernameInput.addEventListener('change', () => { const newName = usernameInput.value.trim().substring(0, 20); if (newName && newName !== localState.username && localState.isConnected) { socket.emit('setUsername', newName); } else if (!newName && localState.username) { usernameInput.value = localState.username; } });
+        createPlantButton.addEventListener('click', () => { if (!localState.isConnected || createPlantButton.disabled) return; toggleModal('create-plant-modal', true); newPlantNameInput.value = `Plante de ${localState.username}`; newPlantNameInput.focus(); newPlantNameInput.select(); });
+        confirmCreateButton.addEventListener('click', () => { const plantName = newPlantNameInput.value.trim().substring(0, 30); if (!plantName) { alert("Veuillez entrer un nom pour la plante."); return; } if (!localState.isConnected || createPlantButton.disabled) return; socket.emit('createPlant', { plantName: plantName }); localState.lastCreateTime = Date.now(); createPlantButton.disabled = true; toggleModal('create-plant-modal', false); });
+        cancelCreateButton.addEventListener('click', () => { toggleModal('create-plant-modal', false); });
+        createPlantModal.addEventListener('click', (e) => { if (e.target === createPlantModal) toggleModal('create-plant-modal', false); });
+        shopButton.addEventListener('click', () => { if (!localState.isConnected || shopButton.disabled) return; renderShopUI(localState.shopItems); toggleModal('shop-modal', true); playSound(sounds.click, '16n', 0.5); });
+        shopModal.addEventListener('click', (e) => { if (e.target === shopModal) toggleModal('shop-modal', false); });
+        waterAllButton.addEventListener('click', () => { if (!localState.isConnected || waterAllButton.disabled) return; socket.emit('waterAllPlants'); localState.lastWaterAllTime = Date.now(); waterAllButton.disabled = true; });
+        for (const actionName in detailActionButtons) { const button = detailActionButtons[actionName]; if (button) { button.addEventListener('click', () => emitAction(actionName)); } else { console.warn(`Button element not found for action: ${actionName}`); } }
+
+        // --- Initialization ---
+        function initializeApp() { console.log("Initialisation de l'application Jardin v7.4..."); const savedUsername = localStorage.getItem('plantMultiplayerUsername'); if (savedUsername) { localState.username = savedUsername; usernameInput.value = savedUsername; } renderGardenView(); updateDetailView(); updateLeaderboardUI([]); updateQuestUI(null); updatePlayerInfoUI(null); updateEventBanner(null); console.log("Application initialisée. En attente de connexion serveur..."); }
+        document.addEventListener('DOMContentLoaded', () => { initializeApp(); document.body.addEventListener('pointerdown', initAudio, { once: true }); document.body.addEventListener('keydown', initAudio, { once: true }); });
+
+         // --- Periodic UI Refresh for Time-Based States ---
+         setInterval(() => {
+              if (localState.isConnected) {
+                   // Refresh event banner timer
+                   if (localState.currentEvent) { updateEventBanner(localState.currentEvent); }
+                   // Refresh button states based on current time and cooldowns
+                   updateDetailButtonStates();
+              }
+         }, 2000); // Update every 2 seconds
 
     </script>
 
