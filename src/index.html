@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jardin Communautaire v7.5 (Optimisé)</title> <script src="https://cdn.tailwindcss.com"></script>
-
+    <title>Jardin Communautaire v7.6 (Affichage Infini)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
      <style>
-       /* --- Styles CSS --- */
-       /* [ VOS STYLES CSS PRÉCÉDENTS SONT ICI - PAS DE CHANGEMENT MAJEUR REQUIS DANS LE CSS ] */
+        /* --- Styles CSS --- */
         :root {
             --primary-color: #4CAF50; --primary-dark: #388E3C; --primary-light: #DCEDC8;
             --secondary-color: #ffb74d; --secondary-dark: #f57c00;
@@ -30,7 +28,7 @@
             --event-banner-color: #7E57C2;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; scroll-behavior: smooth; }
+        html, body { /* Removed height: 100% to allow body to grow */ scroll-behavior: smooth; }
         body {
             font-family: var(--font-family);
             background-color: var(--background-color);
@@ -45,8 +43,30 @@
         #garden-header h2 { color:var(--primary-dark); font-size:1.4em; font-weight:600; margin: 0; } #garden-header h2 i { color: var(--primary-color); margin-right: 8px;}
         #water-all-button { background-color: var(--water-all-color); color: white; padding: 7px 14px; font-size: 0.8em; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         #water-all-button:hover:not(:disabled) { background-color: #0288d1; box-shadow: 0 3px 6px rgba(0,0,0,0.15); transform: translateY(-1px); } #water-all-button:disabled { background-color: #bdbdbd; cursor: not-allowed; opacity: 0.7; box-shadow: none; } #water-all-button i { margin-right: 5px; }
-        #garden-view { display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap: 25px; min-height:300px; max-height:70vh; overflow-y:auto; padding:20px; border:1px solid #f0f0f0; border-radius:var(--border-radius); background-color:#f9fbf9; }
-        #garden-view::-webkit-scrollbar { width: 6px; } #garden-view::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} #garden-view::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } #garden-view::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
+
+        /* --- MODIFIED: #garden-view --- */
+        #garden-view {
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(130px, 1fr));
+            gap: 25px;
+            min-height:150px; /* Keep a minimum height */
+            /* max-height:70vh; REMOVED */
+            /* overflow-y:auto; REMOVED */
+            padding:20px;
+            border:1px solid #f0f0f0;
+            border-radius:var(--border-radius);
+            background-color:#f9fbf9;
+            /* Scrollbar styles removed as overflow is gone */
+        }
+        #garden-loading-message { /* Style for the loading message */
+            text-align:center;
+            color: var(--subtle-text-color);
+            margin-top: 20px;
+            grid-column: 1 / -1; /* Span across all columns */
+            font-style: italic;
+        }
+        /* --- End Modification --- */
+
         .garden-plant { background: linear-gradient(to bottom, #ffffff, #f9f9f9); border: 1px solid #e8e8e8; border-radius:var(--border-radius); padding: 15px 10px; text-align:center; cursor:pointer; transition:all var(--transition-speed) ease; box-shadow:0 4px 10px rgba(0,0,0,.06); position:relative; display: flex; flex-direction: column; align-items: center; overflow: hidden; opacity: 0; transform: translateY(15px); animation: fadeInCard 0.5s ease-out forwards; animation-delay: calc(var(--card-delay, 0) * 0.05s); }
         @keyframes fadeInCard { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
         .garden-plant:hover { transform:translateY(-6px) scale(1.03); box-shadow:0 10px 20px rgba(0,0,0,.09); }
@@ -70,7 +90,10 @@
         .garden-plant-status-icons i.status-health { background-color: var(--health-color-low); } .garden-plant-status-icons i.status-water { background-color:var(--water-color); } .garden-plant-status-icons i.status-energy { background-color:var(--energy-color); } .garden-plant-status-icons i.status-pests { background-color:var(--pesticide-color); } .garden-plant-status-icons i.status-wilted { background-color:var(--danger-color); }
         .garden-plant-name { font-size:.75em; font-weight: 600; color:var(--text-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-top: 0px; width: 100%; padding: 0 5px; }
         .garden-plant-rare { position:absolute;bottom:8px;left:8px;font-size:.9em;color:gold;text-shadow:0 0 4px black; z-index: 2;} .garden-plant-rare i { margin-right:3px; }
-        .sidebar-container-tw {} .sidebar-container-tw::-webkit-scrollbar { width: 6px; } .sidebar-container-tw::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} .sidebar-container-tw::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } .sidebar-container-tw::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
+
+        /* --- Sidebar Styles (Mostly unchanged) --- */
+        .sidebar-container-tw { /* Added max-height and overflow for sidebar on smaller screens if needed */ }
+        .sidebar-container-tw::-webkit-scrollbar { width: 6px; } .sidebar-container-tw::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} .sidebar-container-tw::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } .sidebar-container-tw::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
         .sidebar-section { margin-bottom: 1rem; padding: 1rem; border-radius: var(--border-radius); background: var(--card-background); box-shadow: 0 2px 5px var(--shadow-color); border: 1px solid #e8e8e8; } .sidebar-section:last-child { margin-bottom:0;}
         .sidebar-section.scrollable > div, .sidebar-section.scrollable > ul, .sidebar-section.scrollable > ol { max-height: 150px; overflow-y: auto; padding-right: 5px; }
         .sidebar-section.scrollable > div::-webkit-scrollbar, .sidebar-section.scrollable > ul::-webkit-scrollbar, .sidebar-section.scrollable > ol::-webkit-scrollbar { width: 5px; } .sidebar-section.scrollable > div::-webkit-scrollbar-track, .sidebar-section.scrollable > ul::-webkit-scrollbar-track, .sidebar-section.scrollable > ol::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} .sidebar-section.scrollable > div::-webkit-scrollbar-thumb, .sidebar-section.scrollable > ul::-webkit-scrollbar-thumb, .sidebar-section.scrollable > ol::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } .sidebar-section.scrollable > div::-webkit-scrollbar-thumb:hover, .sidebar-section.scrollable > ul::-webkit-scrollbar-thumb:hover, .sidebar-section.scrollable > ol::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
@@ -119,10 +142,11 @@
         .close-panel-button { position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 2em; cursor: pointer; color: #aaa; line-height: 1;} .close-panel-button:hover { color: #666; }
         #shop-modal .panel-content { flex-grow: 1; overflow-y: auto; margin-top: 10px; padding-right: 5px;} #shop-modal .panel-content::-webkit-scrollbar { width: 5px; } #shop-modal .panel-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px;} #shop-modal .panel-content::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; } #shop-modal .panel-content::-webkit-scrollbar-thumb:hover { background-color: #aaa; }
         #shop-modal ul { list-style: none; padding: 0; margin: 0; } #shop-modal li { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px dashed #eee; } #shop-modal .item-info { text-align: left; flex-grow: 1; margin-right: 10px;} #shop-modal .item-name { font-weight: 600; font-size: 0.9em; display: block;} #shop-modal .item-desc { font-size: 0.8em; color: var(--subtle-text-color); display: block; margin-top: 2px; } #shop-modal .item-price { font-weight: 700; color: var(--secondary-dark); margin-right: 10px; font-size: 0.9em;} #shop-modal .buy-button { padding: 5px 10px; font-size: 0.8em; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; flex-shrink: 0; transition: background-color 0.2s ease;} #shop-modal .buy-button:disabled { background-color: #ccc; cursor: not-allowed; } #shop-modal .buy-button:hover:not(:disabled) { background-color: var(--primary-dark); }
+
+        /* Responsive adjustments */
         @media(max-width:900px){ .sidebar-responsive-wrap { display: flex; flex-direction: column; gap: 1rem; } .sidebar-section { width: 100%; margin-bottom: 1rem !important; } }
         @media(max-width:600px){ #garden-view{grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:15px} #detail-controls { grid-template-columns: repeat(2, 1fr); } #detail-controls .control-button { font-size: 0.7em; padding: 5px 8px; } #detail-controls .control-button i { margin-right: 3px; font-size: 0.8em; } }
         @keyframes buttonPulse{0%{transform:scale(1)}50%{transform:scale(1.05);filter:brightness(1.1)}100%{transform:scale(1)}}
-
      </style>
 </head>
 <body class="bg-gray-100">
@@ -137,7 +161,7 @@
                 <button id="water-all-button" title="Arroser légèrement toutes les plantes" disabled><i class="fas fa-cloud-rain"></i> Tout Arroser</button>
             </div>
             <div id="garden-view">
-                <p style="text-align:center; color: var(--subtle-text-color); margin-top: 20px; grid-column: 1 / -1;">Chargement du jardin...</p>
+                <p id="garden-loading-message">Chargement du jardin...</p>
             </div>
         </main>
 
@@ -245,7 +269,7 @@
                 </section>
             </div>
 
-            <footer class="card-footer mt-auto text-xs">Jardin Communautaire v7.4</footer>
+            <footer class="card-footer mt-auto text-xs">Jardin Communautaire v7.6</footer>
 
         </aside>
 
@@ -277,16 +301,15 @@
         </div>
     </div>
 
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
 
     <script>
         // --- DOM References ---
-        // (Unchanged from previous version)
         const connectionStatusEl = document.getElementById('connection-status');
         const usernameInput = document.getElementById('username');
         const gardenView = document.getElementById('garden-view');
+        const gardenLoadingMessage = document.getElementById('garden-loading-message'); // Ref for loading message
         const createPlantButton = document.getElementById('create-plant-button');
         const shopButton = document.getElementById('shop-button');
         const leaderboardList = document.getElementById('leaderboard-list');
@@ -332,20 +355,19 @@
 
 
         // --- Constants & Local State ---
-         // (Unchanged from previous version)
-         const COOLDOWNS = { talkToPlant: 60 * 1000, fertilizePlant: 5 * 60 * 1000, applyPesticide: 10 * 60 * 1000, repotPlant: 12 * 60 * 60 * 1000, playMusic: 15 * 60 * 1000, cleanLeaves: 2 * 60 * 1000, prunePlant: 6 * 60 * 60 * 1000, checkEnvironment: 30 * 1000, createPlant: 1 * 60 * 1000, observePlant: 1 * 60 * 1000, harvestSeed: 4 * 60 * 60 * 1000, gentleMist: 30 * 1000, waterAllPlants: 5 * 60 * 1000 };
-         const GROWTH_STAGES = { GRAINE: { n: "Graine", i: "fa-seedling", r: false, p: false }, POUSSE: { n: "Pousse", i: "fa-seedling", r: false, p: false }, JEUNE: { n: "Jeune Plante", i: "fa-leaf", r: true, p: false }, MATURE: { n: "Plante Mature",i: "fa-spa", r: true, p: true }, FLORAISON: { n: "En Fleur", i: "fa-fan", r: true, p: true } };
-         let localState = { username: "Jardinier", userId: null, isConnected: false, plants: {}, selectedPlantId: null, lastCreateTime: 0, lastWaterAllTime: 0, leaderboard: [], currentQuest: null, playerCoins: 0, shopItems: {}, currentEvent: null }; // Added currentEvent to localState
-         const MAX_LOG_ENTRIES = 50;
+        const COOLDOWNS = { talkToPlant: 60 * 1000, fertilizePlant: 5 * 60 * 1000, applyPesticide: 10 * 60 * 1000, repotPlant: 12 * 60 * 60 * 1000, playMusic: 15 * 60 * 1000, cleanLeaves: 2 * 60 * 1000, prunePlant: 6 * 60 * 60 * 1000, checkEnvironment: 30 * 1000, createPlant: 1 * 60 * 1000, observePlant: 1 * 60 * 1000, harvestSeed: 4 * 60 * 60 * 1000, gentleMist: 30 * 1000, waterAllPlants: 5 * 60 * 1000 };
+        const GROWTH_STAGES = { GRAINE: { n: "Graine", i: "fa-seedling", r: false, p: false }, POUSSE: { n: "Pousse", i: "fa-seedling", r: false, p: false }, JEUNE: { n: "Jeune Plante", i: "fa-leaf", r: true, p: false }, MATURE: { n: "Plante Mature",i: "fa-spa", r: true, p: true }, FLORAISON: { n: "En Fleur", i: "fa-fan", r: true, p: true } };
+        let localState = { username: "Jardinier", userId: null, isConnected: false, plants: {}, selectedPlantId: null, lastCreateTime: 0, lastWaterAllTime: 0, leaderboard: [], currentQuest: null, playerCoins: 0, shopItems: {}, currentEvent: null };
+        const MAX_LOG_ENTRIES = 50;
+        let gardenLoadedOnce = false; // Flag to track if garden has loaded
 
 
         // --- Audio Synth (Tone.js) ---
-        // (Unchanged from previous version)
-          let synth = null;
-          let audioReady = false;
-          function initAudio() { if (audioReady || (Tone.context && Tone.context.state !== 'running')) { if (Tone.context && Tone.context.state === 'suspended') { console.log("Audio context suspended, attempting to resume..."); Tone.context.resume().then(() => { console.log("Audio context resumed!"); audioReady = !!synth; }).catch(e => console.error("Failed to resume audio context:", e)); } return; } console.log("Initializing audio..."); Tone.start().then(() => { console.log("Tone.js started."); if (!synth) { try { synth = new Tone.Synth({ oscillator: { type: 'sine' }, volume: -15, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 } }).toDestination(); console.log("Synth audio initialized."); audioReady = true; } catch (e) { console.error("Error initializing synth:", e); synth = null; } } else { audioReady = true; } }).catch(e => { console.error("Tone.start() failed. Audio interaction might be needed.", e); }); }
-          function playSound(note = 'C4', duration = '16n', velocity = 0.4) { if (!audioReady || !synth || Tone.context.state !== 'running') { if(!audioReady) initAudio(); console.warn(`Audio not ready or context not running. Sound '${note}' skipped.`); return; } try { synth.triggerAttackRelease(note, duration, Tone.now(), velocity); } catch (e) { console.error(`Error playing sound ${note}:`, e); } }
-          const sounds = { click: 'C5', buy: 'E5', questComplete: 'G5', questUpdate: 'D5', water: 'A4', error: 'C3', create: 'G4', select: 'E4', mist: 'C6', observe: 'D5', waterPlant: 'A4', toggleLight: 'B4', talkToPlant: 'C4', fertilizePlant: 'D4', applyPesticide: 'E3', cleanLeaves: 'F4', playMusic: 'G4', prunePlant: 'A3', repotPlant: 'G3', checkEnvironment: 'E4', harvestSeed: 'C5' };
+        let synth = null;
+        let audioReady = false;
+        function initAudio() { if (audioReady || (Tone.context && Tone.context.state !== 'running')) { if (Tone.context && Tone.context.state === 'suspended') { console.log("Audio context suspended, attempting to resume..."); Tone.context.resume().then(() => { console.log("Audio context resumed!"); audioReady = !!synth; }).catch(e => console.error("Failed to resume audio context:", e)); } return; } console.log("Initializing audio..."); Tone.start().then(() => { console.log("Tone.js started."); if (!synth) { try { synth = new Tone.Synth({ oscillator: { type: 'sine' }, volume: -15, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 } }).toDestination(); console.log("Synth audio initialized."); audioReady = true; } catch (e) { console.error("Error initializing synth:", e); synth = null; } } else { audioReady = true; } }).catch(e => { console.error("Tone.start() failed. Audio interaction might be needed.", e); }); }
+        function playSound(note = 'C4', duration = '16n', velocity = 0.4) { if (!audioReady || !synth || Tone.context.state !== 'running') { if(!audioReady) initAudio(); console.warn(`Audio not ready or context not running. Sound '${note}' skipped.`); return; } try { synth.triggerAttackRelease(note, duration, Tone.now(), velocity); } catch (e) { console.error(`Error playing sound ${note}:`, e); } }
+        const sounds = { click: 'C5', buy: 'E5', questComplete: 'G5', questUpdate: 'D5', water: 'A4', error: 'C3', create: 'G4', select: 'E4', mist: 'C6', observe: 'D5', waterPlant: 'A4', toggleLight: 'B4', talkToPlant: 'C4', fertilizePlant: 'D4', applyPesticide: 'E3', cleanLeaves: 'F4', playMusic: 'G4', prunePlant: 'A3', repotPlant: 'G3', checkEnvironment: 'E4', harvestSeed: 'C5' };
 
 
         // --- Socket.IO Connection ---
@@ -354,12 +376,11 @@
 
 
         // --- Utility Functions ---
-        // (Unchanged formatTime, toggleModal from previous version)
         function formatTime(ts) { if (!ts) return ''; const timestampNumber = Number(ts); if (isNaN(timestampNumber)) return ''; try { return new Date(timestampNumber).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { console.error("Error formatting time:", e); return '??:??'; } }
         function toggleModal(modalId, show) { const modal = document.getElementById(modalId); if (!modal) return; if (show) { modal.classList.add('visible'); const input = modal.querySelector('input[type="text"], input[type="number"]'); if(input) input.focus(); } else { modal.classList.remove('visible'); } }
 
 
-        // --- NEW: Optimized Plant Card Update Function ---
+        // --- Optimized Plant Card Update Function ---
         function updateSinglePlantCard(plantDiv, plantData, index) {
              if (!plantDiv || !plantData) return;
 
@@ -382,48 +403,48 @@
                 plantDiv.style.setProperty('--pot-color', newPotColor);
             }
 
-            // --- Icon Visual Logic (Copied from renderGardenView, applied to existing elements) ---
-             icon.style.color = plantData.characteristics?.baseColor || '#4CAF50';
-             const requiredIconClass = `fas ${stageInfo.i}`;
-             // Update class only if necessary
-             if (!icon.classList.contains(stageInfo.i)) {
-                // Find previous FontAwesome class and remove it before adding new one
-                const currentFaClass = Array.from(icon.classList).find(cls => cls.startsWith('fa-') && cls !== 'fas');
-                if (currentFaClass) icon.classList.remove(currentFaClass);
-                icon.classList.add(stageInfo.i);
-             }
-             icon.classList.toggle('rare-trait-glow', !!plantData.characteristics?.rareTrait);
+            // --- Icon Visual Logic ---
+              icon.style.color = plantData.characteristics?.baseColor || '#4CAF50';
+              const requiredIconClass = `fas ${stageInfo.i}`;
+              // Update class only if necessary
+              if (!icon.classList.contains(stageInfo.i)) {
+                  // Find previous FontAwesome class and remove it before adding new one
+                  const currentFaClass = Array.from(icon.classList).find(cls => cls.startsWith('fa-') && cls !== 'fas');
+                  if (currentFaClass) icon.classList.remove(currentFaClass);
+                  icon.classList.add(stageInfo.i);
+              }
+              icon.classList.toggle('rare-trait-glow', !!plantData.characteristics?.rareTrait);
 
-             let filterStyle = '';
-             let scaleValue = 1.0;
-             let transformStyle = '';
-             let addIdleAnimation = false;
+              let filterStyle = '';
+              let scaleValue = 1.0;
+              let transformStyle = '';
+              let addIdleAnimation = false;
 
-             let growthProgress = plantData.growthProgress !== undefined ? plantData.growthProgress : 0;
-             let baseScale = 1.0;
-             switch (plantData.growthStage) { /* ... case statements ... */
-                 case 'GRAINE': baseScale = 0.6; break;
-                 case 'POUSSE': baseScale = 0.8; break;
-                 case 'JEUNE': baseScale = 1.0; break;
-                 case 'MATURE': baseScale = 1.15; break;
-                 case 'FLORAISON': baseScale = 1.25; break;
-             }
-             scaleValue = baseScale + (growthProgress / 100) * (baseScale * 0.15);
+              let growthProgress = plantData.growthProgress !== undefined ? plantData.growthProgress : 0;
+              let baseScale = 1.0;
+              switch (plantData.growthStage) {
+                  case 'GRAINE': baseScale = 0.6; break;
+                  case 'POUSSE': baseScale = 0.8; break;
+                  case 'JEUNE': baseScale = 1.0; break;
+                  case 'MATURE': baseScale = 1.15; break;
+                  case 'FLORAISON': baseScale = 1.25; break;
+              }
+              scaleValue = baseScale + (growthProgress / 100) * (baseScale * 0.15);
 
-             const plantHealth = plantData.health || 0;
-             if (plantHealth <= 0) { filterStyle = 'grayscale(80%) brightness(60%) sepia(30%)'; scaleValue *= 0.9; transformStyle = `rotate(15deg) scale(${scaleValue.toFixed(2)})`; addIdleAnimation = false; }
-             else { if (plantHealth < 30) filterStyle = `grayscale(50%) brightness(80%) saturate(70%)`; else if (plantHealth < 60) filterStyle = `grayscale(20%) brightness(90%) saturate(85%)`; addIdleAnimation = true; transformStyle = `scale(${scaleValue.toFixed(2)})`; }
+              const plantHealth = plantData.health || 0;
+              if (plantHealth <= 0) { filterStyle = 'grayscale(80%) brightness(60%) sepia(30%)'; scaleValue *= 0.9; transformStyle = `rotate(15deg) scale(${scaleValue.toFixed(2)})`; addIdleAnimation = false; }
+              else { if (plantHealth < 30) filterStyle = `grayscale(50%) brightness(80%) saturate(70%)`; else if (plantHealth < 60) filterStyle = `grayscale(20%) brightness(90%) saturate(85%)`; addIdleAnimation = true; transformStyle = `scale(${scaleValue.toFixed(2)})`; }
 
-             icon.style.filter = filterStyle;
-             icon.style.transform = transformStyle;
+              icon.style.filter = filterStyle;
+              icon.style.transform = transformStyle;
 
-             if (addIdleAnimation) {
-                 const delay = (index * 0.1) % 2; // Use index passed from main loop
-                 icon.style.setProperty('--animation-delay', `${delay}s`);
-                 icon.classList.add('idle-animation');
-             } else {
-                 icon.classList.remove('idle-animation');
-             }
+              if (addIdleAnimation) {
+                  const delay = (index * 0.1) % 2; // Use index passed from main loop
+                  icon.style.setProperty('--animation-delay', `${delay}s`);
+                  icon.classList.add('idle-animation');
+              } else {
+                  icon.classList.remove('idle-animation');
+              }
             // --- End Icon Visual Logic ---
 
              // Update Status Borders/Shadows
@@ -432,7 +453,7 @@
              // Update Pest glow
              iconWrapper.classList.toggle('status-has-pests-glow', (plantData.pestLevel || 0) > 40 && plantHealth > 0);
 
-            // Update Status Icons (Rebuild innerHTML for simplicity here, could optimize further)
+            // Update Status Icons
             let statusIconsHTML = '';
             if (plantHealth <= 0) { statusIconsHTML += '<i class="fas fa-skull-crossbones status-wilted" title="Flétrie"></i>'; }
             if (plantData.waterLevel < 30 && plantHealth > 0) { statusIconsHTML += '<i class="fas fa-tint-slash status-water" title="Assoiffée"></i>'; }
@@ -441,9 +462,8 @@
             if (plantHealth > 0 && plantHealth < 50) { statusIconsHTML += '<i class="fas fa-heart-broken status-health" title="Faible santé"></i>'; }
             // Update only if content changed to avoid flicker
              if (statusIconsDiv.innerHTML !== statusIconsHTML) {
-                statusIconsDiv.innerHTML = statusIconsHTML;
+                 statusIconsDiv.innerHTML = statusIconsHTML;
              }
-
 
             // Update Rare Trait indicator
             const hasRareTrait = !!plantData.characteristics?.rareTrait;
@@ -454,27 +474,26 @@
                      const newRareDiv = document.createElement('div'); newRareDiv.className = 'garden-plant-rare'; newRareDiv.title = plantData.characteristics.rareTrait; newRareDiv.innerHTML = '<i class="fas fa-star"></i>'; plantDiv.appendChild(newRareDiv);
                  }
             } else if (rareDiv) { // If no rare trait but element exists, remove it
-                rareDiv.remove();
+                 rareDiv.remove();
             }
-
 
             // Update Plant Name (if changed)
              if (nameSpan.textContent !== (plantData.name || '?')) {
-                nameSpan.textContent = plantData.name || '?';
+                 nameSpan.textContent = plantData.name || '?';
              }
 
             // Update Tooltip (Title)
             const newTitle = `${plantData.name || '?'} (${stageInfo.n}, Santé: ${Math.round(plantHealth)}%)`;
              if (plantDiv.title !== newTitle) {
-                plantDiv.title = newTitle;
-                nameSpan.title = newTitle;
+                 plantDiv.title = newTitle;
+                 nameSpan.title = newTitle;
              }
         }
 
 
         // --- UI Update Functions ---
 
-        // OPTIMIZED function renderGardenView (using updateSinglePlantCard)
+        // OPTIMIZED function renderGardenView
         function renderGardenView() {
             // console.time("renderGardenViewOptimized"); // Perf check
             const newPlantData = localState.plants;
@@ -482,12 +501,18 @@
             const plantsToRemove = [];
             const currentPlantIds = new Set(); // Keep track of plants currently in DOM
 
+            // MODIFIED: Remove loading message if it exists and we have plants or have loaded once
+            if (gardenLoadingMessage && (Object.keys(newPlantData).length > 0 || gardenLoadedOnce)) {
+                 gardenLoadingMessage.remove(); // Remove the paragraph element
+                 gardenLoadedOnce = true; // Mark that we've loaded at least once
+            }
+
             // Populate existing elements map and ID set
             gardenView.querySelectorAll('.garden-plant[data-plant-id]').forEach(el => {
                  const id = el.dataset.plantId;
                  if (id) {
-                    existingPlantElements[id] = el;
-                    currentPlantIds.add(id);
+                     existingPlantElements[id] = el;
+                     currentPlantIds.add(id);
                  }
             });
 
@@ -505,17 +530,17 @@
                      updateSinglePlantCard(existingElement, plantData, index);
                      currentPlantIds.delete(plantId); // Mark as processed
                  } else {
-                     // Plant is new, create its card (similar to original logic but creates single element)
+                     // Plant is new, create its card
                      const plantDiv = document.createElement('div');
                      plantDiv.className = 'garden-plant'; // Add initial classes
                      plantDiv.dataset.plantId = plantId;
                      plantDiv.style.setProperty('--pot-color', plantData.potColor || '#A1887F');
                       plantDiv.style.setProperty('--card-delay', index); // For animation
 
-                      // Build inner structure (simplified example, expand as needed)
+                     // Build inner structure
                       plantDiv.innerHTML = `
                           <div class="garden-plant-icon-wrapper">
-                             <i class="garden-plant-icon fas fa-question-circle"></i>
+                              <i class="garden-plant-icon fas fa-question-circle"></i>
                           </div>
                           <div class="garden-plant-status-icons"></div>
                           <span class="garden-plant-name"></span>
@@ -539,7 +564,7 @@
                      // Append new plant to garden view
                      gardenView.appendChild(plantDiv);
                  }
-             });
+            });
 
              // Remove plants that are no longer in the data
              currentPlantIds.forEach(plantIdToRemove => {
@@ -569,20 +594,19 @@
         }
 
 
-        // *** CORRECTED function updateDetailView (Only updates visuals/text, not buttons) ***
+        // CORRECTED function updateDetailView (Only updates visuals/text, not buttons)
         function updateDetailView() {
-            const plant = localState.plants[localState.selectedPlantId]; // Use 'plant' variable
+            const plant = localState.plants[localState.selectedPlantId];
             observationFeedbackEl.textContent = ''; // Clear observation
 
             if (!plant || !localState.isConnected) {
                  detailPlaceholder.style.display = 'block'; // Show placeholder
                  detailContent.classList.add('hidden'); // Hide content
-                 // Ensure buttons are disabled when no plant selected
-                 updateDetailButtonStates(); // Call this to ensure buttons are disabled
+                 updateDetailButtonStates(); // Ensure buttons are disabled
                  return;
              }
 
-            // --- Plant Selected - Update Detail View Content (excluding buttons) ---
+            // --- Plant Selected - Update Detail View Content ---
             detailPlaceholder.style.display = 'none';
             detailContent.classList.remove('hidden');
 
@@ -595,9 +619,9 @@
             // Update icon class only if necessary
              const requiredIconClass = `fas ${stageInfo.i}`;
              if (!detailIcon.classList.contains(stageInfo.i)) {
-                const currentFaClass = Array.from(detailIcon.classList).find(cls => cls.startsWith('fa-') && cls !== 'fas');
-                if (currentFaClass) detailIcon.classList.remove(currentFaClass);
-                detailIcon.classList.add(stageInfo.i);
+                 const currentFaClass = Array.from(detailIcon.classList).find(cls => cls.startsWith('fa-') && cls !== 'fas');
+                 if (currentFaClass) detailIcon.classList.remove(currentFaClass);
+                 detailIcon.classList.add(stageInfo.i);
              }
             detailIcon.classList.remove('action-pulse');
 
@@ -606,14 +630,14 @@
             let transformStyle = '';
             let growthProgress = plant.growthProgress !== undefined ? plant.growthProgress : 0;
             let baseScale = 1.0;
-            switch (plant.growthStage) { /* ... case statements ... */
+            switch (plant.growthStage) {
                 case 'GRAINE': baseScale = 0.7; break; case 'POUSSE': baseScale = 0.9; break; case 'JEUNE': baseScale = 1.1; break; case 'MATURE': baseScale = 1.25; break; case 'FLORAISON': baseScale = 1.35; break;
             }
             scaleValue = baseScale + (growthProgress / 100) * (baseScale * 0.15);
 
-            const plantHealth = plant.health || 0; // Define plantHealth
-            if (plantHealth <= 0) { /* ... wilted logic ... */ filterStyle = 'grayscale(80%) brightness(60%) sepia(30%)'; scaleValue *= 0.9; transformStyle = `rotate(15deg) scale(${scaleValue.toFixed(2)})`; }
-            else { /* ... non-wilted logic ... */ if (plantHealth < 30) filterStyle = `grayscale(50%) brightness(80%) saturate(70%)`; else if (plantHealth < 60) filterStyle = `grayscale(20%) brightness(90%) saturate(85%)`; transformStyle = `scale(${scaleValue.toFixed(2)})`; }
+            const plantHealth = plant.health || 0;
+            if (plantHealth <= 0) { filterStyle = 'grayscale(80%) brightness(60%) sepia(30%)'; scaleValue *= 0.9; transformStyle = `rotate(15deg) scale(${scaleValue.toFixed(2)})`; }
+            else { if (plantHealth < 30) filterStyle = `grayscale(50%) brightness(80%) saturate(70%)`; else if (plantHealth < 60) filterStyle = `grayscale(20%) brightness(90%) saturate(85%)`; transformStyle = `scale(${scaleValue.toFixed(2)})`; }
 
             detailIcon.style.filter = filterStyle;
             detailIcon.style.transform = transformStyle;
@@ -632,7 +656,6 @@
              else if (dWater < 15) { healthClass = "thirsty"; statusText = "Très assoiffée !"; }
              else if (dEnergy < 15) { healthClass = "needs-light"; statusText = "Manque cruellement d'énergie..."; }
              else if (dHealth < 30) { healthClass = "danger"; statusText = "Santé très faible !"; }
-             // Use 'plant' not 'ps' for environment check
              else if (plant.environmentStatus !== 'Optimal' && plant.environmentStatus !== 'Infesté de nuisibles'){ healthClass = "warning"; statusText = `Environnement: ${plant.environmentStatus}`; }
              else if (dPest > 40) { healthClass = "pests"; statusText = "Quelques nuisibles présents..."; }
              else if (dWater < 30) { healthClass = "thirsty"; statusText = "Commence à avoir soif..."; }
@@ -668,15 +691,14 @@
              detailFertilizerLevelBar.style.backgroundColor=(dFert<20 && plant.growthStage !== 'GRAINE')?'var(--warning-color)':'var(--fertilizer-color)';
              detailPestLevelBar.style.backgroundColor=(dPest>60)?'var(--danger-color)':(dPest>30?'var(--warning-color)':'var(--pesticide-color)');
 
-
              // Update Pot Color in Detail View
              if(detailPotColorEl) detailPotColorEl.style.backgroundColor = plant.potColor || '#A1887F';
 
-             // *** Button state logic is now handled by updateDetailButtonStates ***
-             updateDetailButtonStates(); // Call the specific function to update buttons
+             // Button state logic is handled by updateDetailButtonStates
+             updateDetailButtonStates();
         }
 
-        // --- NEW: Function to ONLY update button states ---
+        // --- Function to ONLY update button states ---
         function updateDetailButtonStates() {
              const plant = localState.plants[localState.selectedPlantId];
              const isConnected = localState.isConnected;
@@ -684,9 +706,9 @@
              // If no plant selected or not connected, disable all detail buttons
              if (!plant || !isConnected) {
                  Object.values(detailActionButtons).forEach(btn => { if(btn) btn.disabled = true; });
-                 // Also handle global buttons here if needed when no plant selected but connected
+                 // Also handle global buttons
                  const now = Date.now();
-                 createPlantButton.disabled = !isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant) || Object.keys(localState.plants).length >= 50;
+                 createPlantButton.disabled = !isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant) || Object.keys(localState.plants).length >= 50; // Assuming a max plant limit
                  waterAllButton.disabled = !isConnected || (now - localState.lastWaterAllTime < COOLDOWNS.waterAllPlants);
                  shopButton.disabled = !isConnected;
                  return;
@@ -703,7 +725,6 @@
              const dFert = Math.round(plant.fertilizerLevel || 0);
              const dPest = Math.round(plant.pestLevel || 0);
 
-
              // Update each button state
              if (detailActionButtons.waterPlant) detailActionButtons.waterPlant.disabled = isWilted || dWater >= 98;
              if (detailActionButtons.toggleLight) detailActionButtons.toggleLight.disabled = isWilted;
@@ -719,19 +740,18 @@
              if (detailActionButtons.harvestSeed) detailActionButtons.harvestSeed.disabled = isWilted || plant.growthStage !== 'FLORAISON' || (now - (plant.lastHarvestTime || 0)) < COOLDOWNS.harvestSeed;
              if (detailActionButtons.gentleMist) detailActionButtons.gentleMist.disabled = isWilted || (now - (plant.lastMistTime || 0)) < COOLDOWNS.gentleMist;
 
-             // Update toggle light button icon and title (still needs plant data)
+             // Update toggle light button icon and title
              const lightButtonIcon = detailActionButtons.toggleLight?.querySelector('i');
              if(lightButtonIcon) {
                  lightButtonIcon.className = `fas ${plant.isLightOn ? 'fa-lightbulb-slash' : 'fa-lightbulb'}`;
                  detailActionButtons.toggleLight.title = plant.isLightOn ? 'Éteindre Lumière' : 'Allumer Lumière';
              }
 
-             // Update global buttons state (as they depend on time/connection too)
-             createPlantButton.disabled = !isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant) || Object.keys(localState.plants).length >= 50;
+             // Update global buttons state
+             createPlantButton.disabled = !isConnected || (now - localState.lastCreateTime < COOLDOWNS.createPlant) || Object.keys(localState.plants).length >= 50; // Max 50 plants
              waterAllButton.disabled = !isConnected || (now - localState.lastWaterAllTime < COOLDOWNS.waterAllPlants);
              shopButton.disabled = !isConnected;
         }
-
 
         function updateLeaderboardUI(scores) {
              leaderboardList.innerHTML=''; // Clear previous list
@@ -746,7 +766,6 @@
                      <span class="lb-name" title="${entry.username || 'Anonyme'}">${entry.username || 'Anonyme'}</span>
                      <span class="lb-score">${entry.score || 0}</span>
                  `;
-                 // Highlight current player if needed
                  if(entry.userId === localState.userId) {
                      li.style.fontWeight = 'bold';
                      li.style.backgroundColor = 'var(--primary-light)';
@@ -758,11 +777,10 @@
          function updateLogUI(logs) {
              if (!Array.isArray(logs)) { logs = []; }
              logList.innerHTML = ''; // Clear previous logs
-             const logsToShow = logs.slice(0, MAX_LOG_ENTRIES); // Show most recent MAX_LOG_ENTRIES
+             const logsToShow = logs.slice(0, MAX_LOG_ENTRIES); // Show most recent
 
              logsToShow.forEach((logData) => {
                  const li = document.createElement('li');
-                 // Sanitize user input slightly (basic prevention)
                  const userText = (logData.user || 'Système').replace(/</g, "&lt;");
                  const actionText = (logData.action || '').replace(/</g, "&lt;");
 
@@ -770,19 +788,17 @@
                      <span class="log-message"><span class="log-user">${userText}</span> ${actionText}.</span>
                      <span class="log-time">${formatTime(logData.timestamp)}</span>
                  `;
-                 logList.appendChild(li); // Add to the end (will appear at top due to flex styling or scroll)
+                 logList.appendChild(li); // Add to the end
              });
 
-             // Ensure the latest log is visible
-             logList.scrollTop = 0; // Scroll to top if new items added at beginning (unshift)
-             // If using appendChild, use: logList.scrollTop = logList.scrollHeight;
+             // Scroll to top (since new items are added at the end, but CSS might reverse)
+             logList.scrollTop = 0;
 
-             // Trigger fade-in animation for new entries
+             // Trigger fade-in animation
              Array.from(logList.children).forEach(li => {
-                // Simple way: re-trigger animation on all visible logs
-                li.style.animation = 'none';
-                li.offsetHeight; // Trigger reflow
-                li.style.animation = '';
+                 li.style.animation = 'none';
+                 li.offsetHeight; // Trigger reflow
+                 li.style.animation = '';
              });
          }
 
@@ -790,32 +806,26 @@
              if (playerData) {
                  playerScoreEl.textContent = playerData.score !== undefined ? playerData.score : 0;
                  playerCoinsEl.textContent = playerData.coins !== undefined ? playerData.coins : 0;
-                 // Update local state cache
                  localState.playerCoins = playerData.coins || 0;
-                 // Update coins display in the shop modal if it's open
                  shopCoinsEl.textContent = localState.playerCoins;
-                 // Re-render shop to update button disabled states based on coins
                  if (shopModal.classList.contains('visible')) {
-                    renderShopUI(localState.shopItems);
+                     renderShopUI(localState.shopItems);
                  }
              }
          }
 
         function updateQuestUI(questData) {
-             localState.currentQuest = questData; // Update local cache
+             localState.currentQuest = questData;
              if (questData && !questData.completed) {
                  questDescriptionEl.textContent = questData.description || "...";
                  questProgressEl.textContent = `(${questData.progress || 0}/${questData.target || '?'})`;
                  questDisplayEl.classList.remove('completed');
                  questDisplayEl.title = questData.description || '';
-                 // Play sound on progress? Maybe too noisy.
-                 // if (questData.progress > 0) playSound(sounds.questUpdate, '16n', 0.3);
              } else if (questData && questData.completed) {
                  questDescriptionEl.textContent = `Terminé: ${questData.description}`;
                  questProgressEl.textContent = `(${questData.target}/${questData.target})`;
                  questDisplayEl.classList.add('completed');
                  questDisplayEl.title = 'Quête complétée ! En attente de la prochaine...';
-                 // Sound played via actionFeedback for completion
              } else {
                  questDescriptionEl.textContent = "Aucune quête active.";
                  questProgressEl.textContent = "";
@@ -825,8 +835,8 @@
          }
 
         function updateEventBanner(eventData) {
-            localState.currentEvent = eventData; // Cache current event data
-            if (eventData && eventData.name && eventData.endTime > Date.now()) {
+             localState.currentEvent = eventData;
+             if (eventData && eventData.name && eventData.endTime > Date.now()) {
                  const timeLeftMs = eventData.endTime - Date.now();
                  const minutesLeft = Math.floor(timeLeftMs / 60000);
                  const secondsLeft = Math.floor((timeLeftMs % 60000) / 1000);
@@ -835,7 +845,7 @@
                  eventBannerEl.classList.add('visible');
              } else {
                  eventBannerEl.classList.remove('visible');
-                  if (localState.currentEvent) localState.currentEvent = null; // Clear cache if ended
+                  if (localState.currentEvent) localState.currentEvent = null;
              }
          }
 
@@ -872,31 +882,37 @@
                      const targetPlantId = needsTarget ? localState.selectedPlantId : null;
 
                      if (needsTarget && !targetPlantId) {
-                         alert("Veuillez sélectionner une plante dans le jardin avant d'acheter cet objet.");
+                         // Use a custom message box instead of alert()
+                         showCustomAlert("Veuillez sélectionner une plante dans le jardin avant d'acheter cet objet.");
                          playSound(sounds.error);
                          return;
                      }
                       if (localState.playerCoins < item.price) {
-                          alert("Pièces insuffisantes !");
+                          showCustomAlert("Pièces insuffisantes !");
                            playSound(sounds.error);
-                          return;
+                           return;
                       }
 
                      console.log(`Client Emit: buyItem - Item: ${itemId}, Target Plant: ${targetPlantId}`);
                      socket.emit('buyItem', { itemId: itemId, plantId: targetPlantId });
-                     // Play sound optimistically
                      playSound(sounds.buy, '16n');
-                     // Optionally disable button briefly after click to prevent double buys
                      buyButton.disabled = true;
                      setTimeout(() => {
-                         // Re-enable based on actual coin count after potential update
                           if(buyButton) buyButton.disabled = localState.playerCoins < item.price;
-                     }, 1000); // Re-check after 1 second
+                     }, 1000);
                  });
 
                  shopItemList.appendChild(li);
              }
          }
+
+         // --- NEW: Custom Alert Function ---
+         function showCustomAlert(message) {
+            // Simple implementation: Use console for now, or implement a modal
+            console.warn("ALERT:", message);
+            // TODO: Replace with a proper modal dialog if needed
+         }
+
 
         // --- Socket.IO Event Listeners ---
         socket.on('connect', () => {
@@ -907,7 +923,7 @@
              const savedUsername = localStorage.getItem('plantMultiplayerUsername');
              if (savedUsername) { socket.emit('setUsername', savedUsername); localState.username = savedUsername; usernameInput.value = savedUsername; }
              shopButton.disabled = false;
-             updateDetailButtonStates(); // Update button states now that we are connected
+             updateDetailButtonStates();
          });
 
          socket.on('disconnect', (reason) => {
@@ -916,11 +932,15 @@
              localState.selectedPlantId = null;
              connectionStatusEl.textContent = 'Déconnecté';
              connectionStatusEl.className = 'disconnected';
-             // Update UI for disconnected state
-             renderGardenView(); updateDetailView(); updateQuestUI(null); updateEventBanner(null);
+             // Show loading message again on disconnect
+             if (!gardenView.querySelector('#garden-loading-message')) {
+                 gardenView.innerHTML = '<p id="garden-loading-message">Déconnecté. Tentative de reconnexion...</p>';
+             }
+             gardenLoadedOnce = false; // Reset loaded flag
+             updateDetailView(); updateQuestUI(null); updateEventBanner(null);
              leaderboardList.innerHTML = '<li>Déconnecté</li>'; logList.innerHTML = '<li>Déconnecté du serveur...</li>';
              playerScoreEl.textContent = '---'; playerCoinsEl.textContent = '---';
-             updateDetailButtonStates(); // Ensure buttons are disabled
+             updateDetailButtonStates();
          });
 
          socket.on('connect_error', (err) => {
@@ -928,45 +948,43 @@
              localState.isConnected = false;
              connectionStatusEl.textContent = 'Erreur Conn.';
              connectionStatusEl.className = 'disconnected';
-             // Update UI for error state (similar to disconnect)
+             if (!gardenView.querySelector('#garden-loading-message')) {
+                 gardenView.innerHTML = '<p id="garden-loading-message">Erreur de connexion...</p>';
+             }
+             gardenLoadedOnce = false;
               renderGardenView(); updateDetailView(); updateQuestUI(null); updateEventBanner(null);
               leaderboardList.innerHTML = '<li>Erreur connexion</li>'; logList.innerHTML = '<li>Erreur de connexion au serveur...</li>';
               updateDetailButtonStates();
          });
 
         socket.on('plantsUpdate', (plantsData) => {
-             const previousPlantMap = { ...localState.plants }; // Shallow copy for comparison
+             const previousPlantMap = { ...localState.plants };
              localState.plants = plantsData || {};
              let selectedPlantDataChanged = false;
 
-             // Check if selected plant data changed
-              if (localState.selectedPlantId) {
+             if (localState.selectedPlantId) {
                  const oldData = JSON.stringify(previousPlantMap[localState.selectedPlantId]);
                  const newData = JSON.stringify(localState.plants[localState.selectedPlantId]);
                  if (oldData !== newData) {
-                      selectedPlantDataChanged = true;
+                     selectedPlantDataChanged = true;
                  }
              }
-             // Maintain selection if plant still exists
              if (localState.selectedPlantId && !localState.plants[localState.selectedPlantId]) {
-                 localState.selectedPlantId = null; // Deselect if gone
-                 selectedPlantDataChanged = true; // Force detail update to show placeholder
+                 localState.selectedPlantId = null;
+                 selectedPlantDataChanged = true;
              }
-             // Auto-select first plant if none selected
               const plantIds = Object.keys(localState.plants);
               if (!localState.selectedPlantId && plantIds.length > 0) {
                   const sortedIds = plantIds.sort((a, b) => (localState.plants[a]?.timeBorn || 0) - (localState.plants[b]?.timeBorn || 0));
                   localState.selectedPlantId = sortedIds[0];
-                  selectedPlantDataChanged = true; // Force detail update for new selection
+                  selectedPlantDataChanged = true;
               }
 
              renderGardenView(); // Use optimized render
 
-             // Update detail view only if selection changed or selected plant's data changed
              if (selectedPlantDataChanged) {
                  updateDetailView();
              } else {
-                  // Even if plant data didn't change overall, buttons might need state update
                   updateDetailButtonStates();
              }
          });
@@ -979,25 +997,25 @@
         socket.on('plantObservation', (data) => { if (data.plantId === localState.selectedPlantId) { observationFeedbackEl.textContent = data.text || "?"; setTimeout(() => { if (observationFeedbackEl.textContent === data.text) { observationFeedbackEl.textContent = ''; } }, 10000); } });
         socket.on('questUpdate', updateQuestUI);
         socket.on('playerInfoUpdate', updatePlayerInfoUI);
-        socket.on('eventUpdate', (eventData) => { updateEventBanner(eventData); updateDetailButtonStates(); /* Refresh buttons as event might change logic */ });
+        socket.on('eventUpdate', (eventData) => { updateEventBanner(eventData); updateDetailButtonStates(); });
         socket.on('shopItemsUpdate', (items) => { localState.shopItems = items || {}; if (shopModal.classList.contains('visible')) { renderShopUI(localState.shopItems); } });
 
         // --- Client Actions ---
         function emitAction(actionName) {
-            if (!localState.isConnected || !localState.selectedPlantId) { console.warn(`Action ${actionName} impossible.`); playSound(sounds.error); return; }
-            const plant = localState.plants[localState.selectedPlantId];
-            const button = detailActionButtons[actionName];
-            if(!plant || !button) return;
-             if (plant.health <= 0) { alert("Cette plante est flétrie."); playSound(sounds.error); return; }
-             if(button.disabled) { alert("Action impossible (cooldown ou condition non remplie)."); playSound(sounds.error); return; }
+             if (!localState.isConnected || !localState.selectedPlantId) { console.warn(`Action ${actionName} impossible.`); playSound(sounds.error); return; }
+             const plant = localState.plants[localState.selectedPlantId];
+             const button = detailActionButtons[actionName];
+             if(!plant || !button) return;
+              if (plant.health <= 0) { showCustomAlert("Cette plante est flétrie."); playSound(sounds.error); return; }
+              if(button.disabled) { showCustomAlert("Action impossible (cooldown ou condition non remplie)."); playSound(sounds.error); return; }
 
-            console.log(`Client Emit: ${actionName} pour PlantID ${localState.selectedPlantId}`);
-            socket.emit(actionName, { plantId: localState.selectedPlantId });
+             console.log(`Client Emit: ${actionName} pour PlantID ${localState.selectedPlantId}`);
+             socket.emit(actionName, { plantId: localState.selectedPlantId });
 
-            // Visual Feedback
-            if (button) { button.style.animation = 'buttonPulse .5s ease-out'; setTimeout(() => { if (button) button.style.animation = ''; }, 500); }
-            detailPlantIcon.classList.remove('action-pulse'); void detailPlantIcon.offsetWidth; detailPlantIcon.classList.add('action-pulse');
-            playSound(sounds[actionName] || sounds.click, '16n', 0.4);
+             // Visual Feedback
+             if (button) { button.style.animation = 'buttonPulse .5s ease-out'; setTimeout(() => { if (button) button.style.animation = ''; }, 500); }
+             detailPlantIcon.classList.remove('action-pulse'); void detailPlantIcon.offsetWidth; detailPlantIcon.classList.add('action-pulse');
+             playSound(sounds[actionName] || sounds.click, '16n', 0.4);
 
              // Optimistic button disabling based on cooldown
              const cooldown = COOLDOWNS[actionName];
@@ -1010,7 +1028,7 @@
         // --- UI Event Listeners ---
         usernameInput.addEventListener('change', () => { const newName = usernameInput.value.trim().substring(0, 20); if (newName && newName !== localState.username && localState.isConnected) { socket.emit('setUsername', newName); } else if (!newName && localState.username) { usernameInput.value = localState.username; } });
         createPlantButton.addEventListener('click', () => { if (!localState.isConnected || createPlantButton.disabled) return; toggleModal('create-plant-modal', true); newPlantNameInput.value = `Plante de ${localState.username}`; newPlantNameInput.focus(); newPlantNameInput.select(); });
-        confirmCreateButton.addEventListener('click', () => { const plantName = newPlantNameInput.value.trim().substring(0, 30); if (!plantName) { alert("Veuillez entrer un nom pour la plante."); return; } if (!localState.isConnected || createPlantButton.disabled) return; socket.emit('createPlant', { plantName: plantName }); localState.lastCreateTime = Date.now(); createPlantButton.disabled = true; toggleModal('create-plant-modal', false); });
+        confirmCreateButton.addEventListener('click', () => { const plantName = newPlantNameInput.value.trim().substring(0, 30); if (!plantName) { showCustomAlert("Veuillez entrer un nom pour la plante."); return; } if (!localState.isConnected || createPlantButton.disabled) return; socket.emit('createPlant', { plantName: plantName }); localState.lastCreateTime = Date.now(); createPlantButton.disabled = true; toggleModal('create-plant-modal', false); });
         cancelCreateButton.addEventListener('click', () => { toggleModal('create-plant-modal', false); });
         createPlantModal.addEventListener('click', (e) => { if (e.target === createPlantModal) toggleModal('create-plant-modal', false); });
         shopButton.addEventListener('click', () => { if (!localState.isConnected || shopButton.disabled) return; renderShopUI(localState.shopItems); toggleModal('shop-modal', true); playSound(sounds.click, '16n', 0.5); });
@@ -1019,8 +1037,23 @@
         for (const actionName in detailActionButtons) { const button = detailActionButtons[actionName]; if (button) { button.addEventListener('click', () => emitAction(actionName)); } else { console.warn(`Button element not found for action: ${actionName}`); } }
 
         // --- Initialization ---
-        function initializeApp() { console.log("Initialisation de l'application Jardin v7.4..."); const savedUsername = localStorage.getItem('plantMultiplayerUsername'); if (savedUsername) { localState.username = savedUsername; usernameInput.value = savedUsername; } renderGardenView(); updateDetailView(); updateLeaderboardUI([]); updateQuestUI(null); updatePlayerInfoUI(null); updateEventBanner(null); console.log("Application initialisée. En attente de connexion serveur..."); }
-        document.addEventListener('DOMContentLoaded', () => { initializeApp(); document.body.addEventListener('pointerdown', initAudio, { once: true }); document.body.addEventListener('keydown', initAudio, { once: true }); });
+        function initializeApp() {
+            console.log("Initialisation de l'application Jardin v7.6...");
+            const savedUsername = localStorage.getItem('plantMultiplayerUsername');
+            if (savedUsername) { localState.username = savedUsername; usernameInput.value = savedUsername; }
+            // Initial render shows loading message by default
+            updateDetailView();
+            updateLeaderboardUI([]);
+            updateQuestUI(null);
+            updatePlayerInfoUI(null);
+            updateEventBanner(null);
+            console.log("Application initialisée. En attente de connexion serveur...");
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+            document.body.addEventListener('pointerdown', initAudio, { once: true });
+            document.body.addEventListener('keydown', initAudio, { once: true });
+        });
 
          // --- Periodic UI Refresh for Time-Based States ---
          setInterval(() => {
